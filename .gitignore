@@ -1,0 +1,29 @@
+# Generated apps (output of figma-to-react-components skill)
+apps*/
+
+# Node
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Vite
+*.local
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
