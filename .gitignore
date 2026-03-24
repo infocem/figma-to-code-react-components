@@ -1,5 +1,5 @@
 # Backup archives
-apps_bkp*/
+apps*/
 
 # Node
 node_modules/
