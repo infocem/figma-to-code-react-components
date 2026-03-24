@@ -1,0 +1,41 @@
+/* Badge — Blue Hare DS
+   Derived from fill tokens for status indicators
+   ------------------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Active / Approved — brand-aware bg + text */
+.badge--active,
+.badge--approved {
+  background-color: var(--color-badge-active-bg);
+  color: var(--color-badge-active-text);
+}
+
+/* Pending — yellow theme (fill_8M3CZI bg, fill_7WASR7 text) */
+.badge--pending {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+/* Inactive — neutral */
+.badge--inactive {
+  background-color: #EBEBEB;
+  color: #616161;
+}
+
+/* Warning — same as pending */
+.badge--warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}

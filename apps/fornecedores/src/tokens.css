@@ -1,0 +1,108 @@
+/* Blue Hare DS — Design Tokens
+   Extracted from Figma: Blue Hare DS (node 441:4861)
+   Brand Liber (Blue) = default | Brand Teste (Green) = [data-brand="teste"]
+   ------------------------------------------------------------------ */
+
+:root {
+  /* ── Colors ─────────────────────────────────────── */
+
+  /* Neutrals */
+  --color-bg-page:        #F4F6F8;   /* fill_YDOWUD — liber default */
+  --color-bg-page-alt:    #F5F5F5;   /* fill_D7NW6D */
+  --color-surface:        #FCFCFC;   /* fill_TIK188 – sidebar, cards */
+  --color-white:          #FFFFFF;   /* fill_KJIAY1 */
+  --color-border:         #B7B7B7;   /* stroke_MLUQ32 */
+  --color-border-default: #B7B7B7;
+
+  /* Text */
+  --color-text-primary:   #020202;   /* fill_8ST1B1 */
+  --color-text-heading:   #060F16;   /* fill_44FCW3 */
+  --color-text-dark:      #000000;
+  --color-text-disabled:  #424242;   /* fill_HQTE5L */
+
+  /* Brand — defaults = Liber (Blue) */
+  --color-primary-dark:    #122E41;  /* fill_5S2IL4 */
+  --color-primary:         #1E4D6D;  /* fill_NMM305 – selected / primary btn */
+  --color-primary-mid:     #4B718A;  /* fill_FSW19A – links */
+  --color-primary-light:   #7894A7;  /* fill_V89ASM – muted */
+
+  /* Badge active */
+  --color-badge-active-bg:   #C6DFD9; /* fill_8M55KP */
+  --color-badge-active-text: #1F4127; /* fill_SN5BVG */
+
+  /* Status – yellow */
+  --color-warning-bg:      #F8E8AB;  /* fill_PHKEBX */
+  --color-warning-text:    #887000;  /* fill_C7QHGM */
+  --color-warning:         #CEAB00;  /* fill_LFFL2N */
+
+  /* Secondary */
+  --color-secondary:       #006AEB;
+
+  /* ── Typography ──────────────────────────────────── */
+  --font-family:           'Montserrat', sans-serif;
+
+  /* body/md */
+  --font-size-body-md:     14px;
+  --font-weight-body-md:   450;
+  --line-height-body-md:   1.5714285714285714em;  /* 22px */
+
+  /* body/md-semibold */
+  --font-size-body-md-sb:  14px;
+  --font-weight-body-md-sb: 600;
+  --line-height-body-md-sb: 1.5714285714285714em;
+
+  /* body/sm */
+  --font-size-body-sm:     12px;
+  --font-weight-body-sm:   450;
+  --line-height-body-sm:   1.5em;
+
+  /* heading/h7 */
+  --font-size-h7:          14px;
+  --font-weight-h7:        600;
+  --line-height-h7:        2em;  /* 28px */
+
+  /* ── Spacing ─────────────────────────────────────── */
+  --spacing-4:   4px;
+  --spacing-8:   8px;
+  --spacing-10:  10px;
+  --spacing-12:  12px;
+  --spacing-16:  16px;
+  --spacing-24:  24px;
+  --spacing-32:  32px;
+  --spacing-40:  40px;
+  --spacing-48:  48px;
+  --spacing-64:  64px;
+
+  /* ── Radius ──────────────────────────────────────── */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+
+  /* ── Elevation ───────────────────────────────────── */
+  --shadow-card: 0px 1px 1px 0px rgba(80, 98, 134, 0.22),
+                 0px 1px 0px 1px rgba(106, 124, 160, 0.08);
+}
+
+/* ── Brand Teste (Green) overrides ──────────────── */
+:root[data-brand="teste"] {
+  --color-primary:         #007D57;   /* fill_15RPFF */
+  --color-primary-dark:    #003223;   /* fill_R316HP */
+  --color-primary-mid:     #339779;   /* fill_LYRB5E */
+  --color-primary-light:   #66B19A;   /* fill_5Z3IL6 */
+  --color-bg-page:         #F5F5F5;   /* fill_D7NW6D */
+  --color-badge-active-bg:   #E2EFE4; /* fill_L0PIO8 */
+  --color-badge-active-text: #578F63; /* fill_PMSHHB */
+}
+
+/* ── Reset ───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-body-md);
+  line-height: var(--line-height-body-md);
+  color: var(--color-text-primary);
+  background: var(--color-bg-page);
+  -webkit-font-smoothing: antialiased;
+}

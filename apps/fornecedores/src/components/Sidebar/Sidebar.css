@@ -1,0 +1,79 @@
+/* Sidebar — Blue Hare DS
+   status=default, state=collapsed (componentId 248:5306)
+   layout_M92U9P: column, padding 64px 4px 32px, gap 16px, width fixed
+   -------------------------------------------------------------------- */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-64) var(--spacing-4) var(--spacing-32);
+  gap: var(--spacing-16);
+
+  background-color: var(--color-surface);
+  border-right: 0.5px solid var(--color-border);
+
+  width: 56px;
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.sidebar__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-8);
+  list-style: none;
+  width: 100%;
+}
+
+.sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Item — not selected (componentId 96:76)
+   layout_25M8ID: row, alignItems center, padding 8px
+   -------------------------------------------------------------------- */
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-white);
+  transition: background-color 0.15s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar__item:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+/* Item — selected (componentId 96:186)
+   fill_95476O: #1E4D6D, icon fill_BMU62D: #FCFCFC
+   CSS filter turns any dark SVG into white for the selected state.
+   -------------------------------------------------------------------- */
+.sidebar__item--selected {
+  background-color: var(--color-primary);
+}
+
+.sidebar__item--selected img {
+  filter: brightness(0) invert(1);
+}
+
+.sidebar__item--selected:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.sidebar__item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

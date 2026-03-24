@@ -73,6 +73,19 @@ Figma:get_screenshot(fileKey, nodeId)        # Visual reference
 - Layout constraints and spacing values
 - Icons and image fills
 
+**Multi-brand detection — do this during Phase 1:**
+
+After fetching the page data, check if the target CANVAS node has **2 or more top-level FRAME children** with the same name or similar structure. If yes:
+
+1. Collect all `fills:` and `strokes:` tokens used in each frame separately.
+2. Diff the two sets:
+   - Tokens **only in frame A** → Brand A palette
+   - Tokens **only in frame B** → Brand B palette
+   - Tokens **in both** → shared/neutral palette
+3. Resolve the actual color values for each set from the flat token definitions at the end of the MCP payload.
+4. Record the brand names from any annotation nodes (`type: TEXT`, name like "Brand X") or derive them from the frame names.
+5. **If 2+ brands are detected, Phase 2 MUST generate brand token files and a BrandSwitcher component.** Do not skip this — it is not optional.
+
 ### Phase 1b: Asset Identification & Download
 
 Scan all nodes returned by the Figma MCP for `type: IMAGE-SVG` and image fills.
@@ -90,10 +103,29 @@ See `references/asset-download-guide.md` for the full step-by-step workflow.
 
 **If the project has NO token files:** Extract tokens directly from Figma and generate token files. See `references/token-mapping-guide.md` § "Extracting Tokens from Figma" for the full workflow:
 1. Use `get_variable_defs` to pull all variable collections from the Figma file
-2. Ask the user for their preferred format (SCSS, CSS custom properties, or Tailwind) and output directory
-3. Generate organized token files (colors, spacing, typography, radius, elevation) using semantic naming conventions
-4. Create an index/barrel file that imports all token partials
-5. Proceed with mapping component values to the newly generated tokens
+2. **Check for Variable Modes** (multi-brand/white-label): If the Figma file has a variable collection with multiple Modes (e.g. "Liber", "Partner X"), follow `references/brand-tokens-guide.md` to generate one `tokens/brands/[mode-name].css` file per Mode
+3. Ask the user for their preferred format (SCSS, CSS custom properties, or Tailwind) and output directory
+4. Generate organized token files with the 3-layer hierarchy: `primitives.css` (brand values) → `semantic.css` (purpose mappings) → `brands/[brand].css` (per-brand overrides)
+5. Create `tokens/index.css` that imports all partials in order
+6. Proceed with mapping component values to the newly generated tokens
+
+**If 2+ brands were detected in Phase 1**, additionally:
+
+7. Generate `tokens/brands/[brand-a].css` and `tokens/brands/[brand-b].css` with brand-specific token overrides.
+   - Use **`:root[data-brand="name"]`** as the selector (NOT `[data-brand="name"]`). This gives specificity `(0,2,0)` which beats the base `:root` block at `(0,1,0)`. Using the lower-specificity selector causes the brand overrides to be silently ignored.
+   - Import brand files at the top of `tokens/index.css` via `@import './brands/[name].css'` (required by CSS spec — `@import` must precede all rules).
+   - Define a `--brand-primary`, `--brand-primary-hover`, `--brand-primary-active` alias in each brand file so components never hardcode per-brand hex values.
+
+8. Update all component stylesheets to use `--brand-primary` (and its hover/active variants) instead of any hardcoded color that differs between brands.
+
+9. Generate a `BrandSwitcher` component that:
+   - Renders as a fixed overlay (top-right corner) in the showcase/dev app.
+   - Uses `useButton` from React Aria for each brand option.
+   - On press, sets `document.documentElement.setAttribute('data-brand', brandId)` — this is what triggers the CSS override cascade.
+   - Applies the initial brand via `useEffect` on mount.
+   - Shows a colored dot and label for each brand, with an active state.
+
+10. Wire `BrandSwitcher` into `main.tsx` (or the app entry point), not into a page component — it must wrap the whole app.
 
 **Token categories to map (or generate):**
 - Colors (backgrounds, text, borders, icons)
@@ -199,6 +231,11 @@ Deliver all artifacts in this order:
    - Interactive examples with React Aria props
    - All variants demonstrated
 
+5. **Brand tokens** (only when 2+ brands detected in Phase 1)
+   - `tokens/brands/[brand-a].css` and `tokens/brands/[brand-b].css`
+   - `BrandSwitcher/BrandSwitcher.tsx` + `BrandSwitcher.scss`
+   - Updated `main.tsx` wiring `BrandSwitcher` at app root level
+
 ## Rules
 
 See [rules index](rules/_sections.md) for token, accessibility, and naming rules.
@@ -236,6 +273,12 @@ Expected behavior: Do not prioritize `figma-to-react-components`; choose a more 
 - Error: Component styles contain hardcoded pixel values or hex colors instead of tokens.
 - Cause: Token mapping was skipped or incomplete during Phase 2.
 - Solution: Re-run token mapping against the project's token system. Replace every raw value with its token reference. If no token exists, flag it as a gap with a `/* TODO */` comment.
+
+### Brand Switcher Does Not Apply Colors
+
+- Error: Clicking brand options has no visible effect on the UI.
+- Cause: Brand CSS files use `[data-brand="name"]` selector instead of `:root[data-brand="name"]`. Both selectors match the `<html>` element, but `[data-brand]` has specificity `(0,1,0)` — the same as `:root`. Since brand `@import`s must appear before the `:root {}` block (CSS spec), the `:root` block always wins the cascade.
+- Solution: **Always use `:root[data-brand="name"]`** in brand token files. This raises specificity to `(0,2,0)`, which beats the base `:root` regardless of source order.
 
 ### Component Props Do Not Match Figma
 

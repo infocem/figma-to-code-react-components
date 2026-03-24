@@ -1,0 +1,88 @@
+/* TopBar — Blue Hare DS
+   layout_32FJCM: row, justifyContent space-between, gap 10px, padding 24px 32px
+   effects: elevation
+   ------------------------------------------------------------------- */
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-10);
+  padding: var(--spacing-24) var(--spacing-32);
+
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Breadcrumb — componentId 160:1610
+   layout_P1Y3O9: row, alignItems center, gap 4px
+   ------------------------------------------------------------------- */
+.top-bar__breadcrumb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.top-bar__breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+/* link component — type: basic link (componentId 160:1330)
+   layout_W8C42J: row, alignItems center, gap 12px, borderRadius 4px
+   fill_S1CLE1: #4B718A
+   ------------------------------------------------------------------- */
+.top-bar__breadcrumb-link {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-body-md);
+  line-height: var(--line-height-body-md);
+  color: var(--color-primary-mid);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.top-bar__breadcrumb-link:hover {
+  color: var(--color-primary);
+  background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.top-bar__breadcrumb-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.top-bar__breadcrumb-sep {
+  display: flex;
+  align-items: center;
+  color: var(--color-primary-mid);
+}
+
+/* Current page — fill_T44F72: #020202 */
+.top-bar__breadcrumb-label {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-body-md);
+  line-height: var(--line-height-body-md);
+  color: var(--color-text-primary);
+}
+
+.top-bar__breadcrumb-label--current {
+  color: var(--color-text-primary);
+}
+
+/* Logo — layout_ZH3E5L: fixed 69.89 × 24px */
+.top-bar__logo {
+  width: 70px;
+  height: 24px;
+  flex-shrink: 0;
+}

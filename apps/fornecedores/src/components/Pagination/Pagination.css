@@ -1,0 +1,61 @@
+/* Pagination — Blue Hare DS
+   componentId 157:849 (selected), 157:767 (numeric), 156:689 (prev), 156:529 (next)
+   layout_W45JV3: fixed 32x32, borderRadius 4px
+   ------------------------------------------------------------------- */
+
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.pagination__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: var(--color-bg-page-alt, #F5F5F5);
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-md-sb);
+  font-weight: var(--font-weight-body-md-sb);
+  line-height: 1;
+  color: var(--color-primary-mid);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.pagination__item:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+}
+
+.pagination__item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Selected page — fill_15RPFF (brand) bg, fill_TIK188 text */
+.pagination__item--selected {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: var(--font-weight-body-md-sb);
+}
+
+.pagination__item--selected:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-surface);
+}
+
+/* Arrow prev/next */
+.pagination__item--arrow {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.pagination__item--arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

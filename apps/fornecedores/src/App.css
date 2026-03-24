@@ -1,0 +1,25 @@
+/* App layout — Blue Hare DS "Fornecedores - perfil sacado"
+   layout_SFVCBU: row, justifyContent space-between, gap 246px, fill horizontal, hug vertical
+   ------------------------------------------------------------------- */
+
+.app {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: var(--color-bg-page);
+}
+
+/* Main area — takes remaining width after sidebar */
+.app__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Scrollable content container — layout_3L3ZZ9: column, overflow-y scroll */
+.app__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-48);
+}
