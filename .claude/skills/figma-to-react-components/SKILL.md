@@ -107,6 +107,17 @@ Follow these phases in order:
 
 **Do NOT skip BrandSwitcher** — even if only extracting a single component. If the Figma file has brands, the switcher must exist so all components can be previewed in each brand.
 
+**Component token rule for multi-brand projects**: When creating semantic tokens for any component, use `--brand-*` tokens instead of single-brand primitives. Mapping:
+- `--brand-primary` instead of `--color-teal` (primary actions, selections, active states)
+- `--brand-page-bg` instead of page background colors
+- `--brand-success-bg`, `--brand-success-text` instead of `--color-success-bg/text`
+- `--brand-warning-text` instead of `--color-warning-text`
+- `--brand-text-accent`, `--brand-text-dark` instead of accent/dark text colors
+
+Shared/neutral colors (grays, borders, white, black) are fine to reference directly.
+
+If a component needs a new brand-specific token, add it to ALL brand files (`tokens/brands/*.css`) AND to the base `:root` defaults in `semantic.css`.
+
 See `references/page-extraction-guide.md` Step 1 (brand detection) and Step 6 (brand token generation) for the full methodology.
 
 ### Phase 1: Extract Figma Design Context

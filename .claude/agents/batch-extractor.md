@@ -63,7 +63,34 @@ During classification, also check for multi-brand:
 
 ## Phase 1: Parallel extraction in batches of 6 (components only)
 
-For each batch of up to 6 **components**, launch sub-agents in parallel using the Agent tool. Each sub-agent receives this prompt template:
+For each batch of up to 6 **components**, launch sub-agents in parallel using the Agent tool.
+
+**`{brandInstructions}` template** — inject this into the prompt ONLY if multi-brand was detected in Phase 0c. If single-brand, leave empty.
+
+```
+MULTI-BRAND PROJECT: This project supports white-label/multi-brand. When creating
+semantic tokens for this component, you MUST use --brand-* tokens instead of
+hardcoding single-brand color primitives. Mapping:
+
+  --brand-primary        → use instead of --color-teal for primary actions, selections, active states
+  --brand-primary-stroke  → use instead of --color-teal for primary borders
+  --brand-page-bg        → use instead of --color-gray-light for page/section backgrounds
+  --brand-text-accent    → use instead of --color-blue-muted for accent text
+  --brand-text-dark      → use instead of --color-dark-navy for dark text
+  --brand-success-bg     → use instead of --color-success-bg for success backgrounds
+  --brand-success-text   → use instead of --color-success-text for success text
+  --brand-warning-text   → use instead of --color-warning-text for warning text
+
+Read the existing brand tokens in src/tokens/brands/ to see all available --brand-* vars.
+If your component needs a brand-specific token that doesn't exist yet, add it to ALL
+brand files (src/tokens/brands/*.css) AND to the base :root defaults in semantic.css.
+
+NEVER reference --color-teal or other single-brand primitives directly in component
+semantic tokens when the value is brand-specific (primary colors, selected states, etc.).
+Shared/neutral colors (grays, borders, white, black) are fine to use directly.
+```
+
+Each sub-agent receives this prompt template:
 
 ```
 You are extracting a Figma component into a React component for the Blue Hare DS project at {appDir}.
@@ -78,6 +105,8 @@ IMPORTANT RULES:
 - Do NOT register in ComponentsPage.tsx — the orchestrator will do that after
 
 Read existing tokens from src/tokens/primitives.css and src/tokens/semantic.css before starting. If NEW tokens are needed, ADD them (append, don't overwrite).
+
+{brandInstructions}
 
 TASK: Extract the "{componentName}" component from Figma file {fileKey}, node-id {nodeId}.
 
