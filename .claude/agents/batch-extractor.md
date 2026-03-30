@@ -43,6 +43,24 @@ Separate items into two lists: `components[]` and `pages[]`.
 - Components → extract with the standard sub-agent prompt (Phase 1 below)
 - Pages → extract with `@page-extractor` agent AFTER all components are done (pages depend on existing components)
 
+### Phase 0c: Multi-brand detection (MANDATORY)
+
+During classification, also check for multi-brand:
+- CANVAS nodes with 2+ FRAMEs of the same name
+- GROUP nodes labeled "Brand X" / "Brand Y"
+- Variable Modes in token definitions
+
+**If 2+ brands are detected, do this BEFORE launching any component extraction:**
+1. Diff fills between brand frames to identify brand-specific vs shared tokens
+2. Resolve hex values from `globalVars.styles`
+3. Generate `tokens/brands/[brand].css` for each brand (`:root[data-brand="name"]` selector)
+4. Generate `BrandSwitcher` component in `src/components/BrandSwitcher/`
+5. Wire `BrandSwitcher` into `main.tsx` at app root level
+6. Import brand files at top of `tokens/index.css`
+7. Update base semantic tokens to use `--brand-*` for brand-specific colors
+
+**This is non-negotiable.** BrandSwitcher must exist before component extraction begins so sub-agents can reference `--brand-*` tokens instead of hardcoding single-brand colors.
+
 ## Phase 1: Parallel extraction in batches of 6 (components only)
 
 For each batch of up to 6 **components**, launch sub-agents in parallel using the Agent tool. Each sub-agent receives this prompt template:

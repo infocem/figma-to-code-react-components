@@ -30,6 +30,14 @@ You extract **pages** (not components) from Figma. A page is a composition of ex
    - Resolve hex values from `globalVars.styles`
    - Record brand names from GROUP/TEXT annotations (e.g., "Brand liber", "Brand teste")
    - Use Frame A only for structure extraction
+4. **If 2+ brands detected AND brand infrastructure doesn't exist yet** (`tokens/brands/` is empty, no BrandSwitcher):
+   - **STOP page extraction**. Generate brand infrastructure FIRST:
+     - `tokens/brands/[brand].css` for each brand
+     - `BrandSwitcher` component
+     - Wire into `main.tsx`
+     - Update semantic tokens to use `--brand-*`
+   - Then resume page extraction
+   - **If brand infrastructure already exists**: verify it covers the detected brands. Add missing brands if needed.
 
 ### Phase B: Build Component Instance Map
 

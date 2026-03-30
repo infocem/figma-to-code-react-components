@@ -90,6 +90,25 @@ Follow these phases in order:
 
 **If it's a COMPONENT** → proceed with Phase 1 below.
 
+### Phase 0 also: Multi-brand detection (MANDATORY)
+
+**This check runs for BOTH pages and components.** After fetching the Figma data, check for multi-brand:
+
+1. **For CANVAS nodes**: check if there are 2+ top-level FRAMEs with the same name, or GROUP nodes named "Brand X"
+2. **For COMPONENT_SET nodes**: check if Variable Modes exist (multiple brand columns in token definitions)
+3. **For any node**: diff fills between duplicate frames — fills that differ = brand-specific tokens
+
+**If 2+ brands are detected, the following are MANDATORY (non-negotiable):**
+- Generate `tokens/brands/[brand].css` for each brand with `:root[data-brand="name"]` selector
+- Generate a `BrandSwitcher` component in `src/components/BrandSwitcher/`
+- Wire `BrandSwitcher` into `main.tsx` at app root level
+- Update all component semantic tokens that reference brand-specific colors to use `--brand-*` tokens
+- Import brand files at the top of `tokens/index.css`
+
+**Do NOT skip BrandSwitcher** — even if only extracting a single component. If the Figma file has brands, the switcher must exist so all components can be previewed in each brand.
+
+See `references/page-extraction-guide.md` Step 1 (brand detection) and Step 6 (brand token generation) for the full methodology.
+
 ### Phase 1: Extract Figma Design Context
 
 Use Figma MCP tools to gather component information:
