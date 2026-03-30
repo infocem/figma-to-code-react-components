@@ -29,26 +29,38 @@ Convert Figma component designs into production-ready React components with full
 - **Design tokens** (optional) — If the project already has a token system (SCSS, CSS vars, Tailwind, JS/TS), map to it. If not, tokens are extracted from Figma and generated as part of the workflow.
 - **Storybook** (optional) — For component documentation and visual testing
 
-## Project Configuration Discovery
+## Project Configuration
 
-On first use in a project, discover the local configuration before generating code. Search the codebase to determine:
+Read project defaults from `.claude/CLAUDE.md`. This file defines the stack, output paths, token format, and styling approach for the project.
 
-1. **Token import path** — Where tokens are imported from. Search for existing token files:
-   - SCSS: `@import 'styles/tokens'` or `@import 'path/to/variables'`
-   - CSS: `@import 'tokens.css'` or custom properties in `:root`
-   - Tailwind: `tailwind.config.ts` theme extension
-   - JS/TS: `import { tokens } from './tokens'`
-   - **If no token files exist:** Tokens will be extracted from Figma and generated during Phase 2. Ask the user which format to generate (SCSS, CSS custom properties, or Tailwind) and where to save them.
+If no `.claude/CLAUDE.md` exists, fall back to discovery: search the codebase for token files, styling patterns, and component directories. Ask the user for any setting that cannot be determined.
 
-2. **Component output directory** — Where components live (e.g., `src/components/`)
+## Ordem de dependência (não pular etapas)
 
-3. **Stories directory** — Where Storybook stories live (e.g., `stories/` or co-located)
+1. **Token files devem existir antes de qualquer geração de código**
+   → Se `src/tokens/primitives.css` não existe → rodar Phase 2 (token extraction) primeiro
+   → Se já existe → ir direto para Phase 1
 
-4. **Styling approach** — SCSS modules, CSS modules, Tailwind utility classes, styled-components, etc.
+2. **Assets devem ser baixados (Phase 1b) antes de escrever qualquer .tsx**
+   → O generator nunca deve gerar um import de asset que ainda não foi baixado
 
-5. **Icon/asset strategy** — Project icon library location and import convention
+3. **`component-registry.json` deve ser lido antes de qualquer Phase 4 (código)**
+   → Sempre verificar se subcomponentes já existem antes de reinventá-los
+   → Localização: `extraction/[project]/component-registry.json`
 
-Cache these findings for the session. If unsure about any setting, ask the user before generating code.
+## Two-Agent Workflow (for batch extraction)
+
+When extracting multiple components (e.g. a full design system), split work across two independent agents per component to avoid context overflow and allow retries without re-hitting Figma:
+
+```
+@figma-extractor  →  runs Phase 1 + 1b  →  component.spec.json
+@figma-generator  →  runs Phases 2–8    →  React component files
+```
+
+- **`@figma-extractor`** (`.claude/agents/figma-extractor.md`) — fetches Figma data, maps tokens, saves spec JSON. Source of truth: Phase 1 + 1b of this skill.
+- **`@figma-generator`** (`.claude/agents/figma-generator.md`) — reads spec, generates all files. Source of truth: Phases 2–8 of this skill.
+
+The agents are thin orchestrators — all rules (tokens, aria, BEM, naming) live here in the skill. The spec JSON is the contract between both agents. See `references/spec-schema.md` for the full format.
 
 ## Workflow
 
@@ -91,11 +103,34 @@ After fetching the page data, check if the target CANVAS node has **2 or more to
 Scan all nodes returned by the Figma MCP for `type: IMAGE-SVG` and image fills.
 Collect instance nodeIds (the semicolon-separated path IDs). Download via `mcp__figma__download_figma_images` in a **single batch call** BEFORE writing any component code.
 
+**MANDATORY SVG sanitization after download:**
+After every batch download, run this cleanup on EACH SVG in `[outputDir]/public/icons/`:
+
+1. **Remove background white rects** — Delete any `<rect fill="white"/>` that is NOT inside `<clipPath>` or `<defs>`. These rects make mask-image render as a solid square.
+2. **Replace hardcoded fills with currentColor** — For icons with `colorStrategy: "currentColor"`, replace ALL `fill="#XXXXXX"` and `stroke="#XXXXXX"` on `<path>`, `<circle>`, `<rect>`, `<polygon>` elements with `fill="currentColor"` / `stroke="currentColor"`. Leave `fill="none"` untouched. Leave fills inside `<clipPath>/<defs>` untouched.
+3. **Keep fixed-color icons as-is** — For icons with `colorStrategy: "fixed"` (logos, brand marks), do NOT replace fills.
+4. **Verify no white fills remain** — Scan for `fill="#FCFCFC"`, `fill="#FFFFFF"`, `fill="white"` on paths. These are invisible when used as mask-image. Replace with `fill="currentColor"`.
+
+This step is critical — without it, mask-image icons render as solid squares or are invisible.
+
 Output:
-- Downloaded files in `[outputDir]/public/icons/`
+- Downloaded + sanitized files in `[outputDir]/public/icons/`
 - `Icons.tsx` barrel with typed `<img>`-based wrappers
 
 See `references/asset-download-guide.md` for the full step-by-step workflow.
+
+### Phase 1c: Scaffold Font Loading
+
+After token extraction identifies the font family (e.g., `--font-family-base: 'Montserrat'`), the scaffold MUST load the font. This step is **mandatory** — without it, all typography falls back to the browser's default sans-serif.
+
+1. **Add Google Fonts `<link>` to `index.html`** — Include the font with all weights used in the design system. For variable fonts (e.g., Montserrat with weight 450), use the variable font URL:
+   ```html
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   ```
+2. **If the design uses secondary fonts** (e.g., `Public Sans` in the sidebar footer), add those too.
+3. **Remove Vite scaffold CSS** — Delete or empty `src/index.css` (or `src/App.css`) that contains default Vite template styles. These override design system tokens.
 
 ### Phase 2: Map Design Tokens
 
@@ -104,7 +139,7 @@ See `references/asset-download-guide.md` for the full step-by-step workflow.
 **If the project has NO token files:** Extract tokens directly from Figma and generate token files. See `references/token-mapping-guide.md` § "Extracting Tokens from Figma" for the full workflow:
 1. Use `get_variable_defs` to pull all variable collections from the Figma file
 2. **Check for Variable Modes** (multi-brand/white-label): If the Figma file has a variable collection with multiple Modes (e.g. "Liber", "Partner X"), follow `references/brand-tokens-guide.md` to generate one `tokens/brands/[mode-name].css` file per Mode
-3. Ask the user for their preferred format (SCSS, CSS custom properties, or Tailwind) and output directory
+3. Use the format specified in `.claude/CLAUDE.md`. If not specified, ask the user.
 4. Generate organized token files with the 3-layer hierarchy: `primitives.css` (brand values) → `semantic.css` (purpose mappings) → `brands/[brand].css` (per-brand overrides)
 5. Create `tokens/index.css` that imports all partials in order
 6. Proceed with mapping component values to the newly generated tokens
@@ -166,6 +201,43 @@ Create the component following `references/component-patterns.md`.
 - Focus management with `:focus-visible` (see `rules/aria-focus-visible-only.md`)
 - Build props from actual Figma MCP extraction, not assumptions
 
+**Showcase export — add to bottom of every .tsx:**
+```ts
+export const showcase = {
+  name: 'ComponentName',
+  render: () => (/* all main variants side by side */),
+};
+```
+
+**Icon reference rules — MANDATORY:**
+- **NEVER import SVGs from `public/`** — Use string constants: `const iconName = '/icons/filename.svg';`. Vite converts `import x from '/icons/...'` to data URIs which break mask-image.
+- **ONE icon helper pattern per project** — Create a shared `MaskIcon` component in `src/components/shared/MaskIcon.tsx` during the first component generation, then reuse it everywhere. Do NOT create per-component icon helpers:
+  ```tsx
+  // src/components/shared/MaskIcon.tsx
+  export function MaskIcon({ src, size = 24, className }: { src: string; size?: number; className?: string }) {
+    return (
+      <span
+        className={className}
+        aria-hidden="true"
+        style={{
+          maskImage: `url(${src})`,
+          WebkitMaskImage: `url(${src})`,
+          maskSize: 'contain',
+          WebkitMaskSize: 'contain',
+          maskRepeat: 'no-repeat',
+          WebkitMaskRepeat: 'no-repeat',
+          display: 'inline-block',
+          width: size,
+          height: size,
+          backgroundColor: 'currentColor',
+        }}
+      />
+    );
+  }
+  ```
+- **Fixed-color icons use `<img>`** — Only icons with `colorStrategy: "fixed"` use `<img src={iconPath} />`. All `currentColor` icons MUST use the `MaskIcon` component.
+- **Do NOT use `import React from 'react'`** — With `jsx: "react-jsx"` in tsconfig, React auto-import is handled by the compiler. Only import specific named exports: `import { useState, useRef } from 'react'`. Use `import type { ... }` for type-only imports when `verbatimModuleSyntax` is enabled.
+
 ### Phase 5: Generate Styles
 
 Create the stylesheet using the project's token system.
@@ -179,6 +251,8 @@ Create the stylesheet using the project's token system.
 - Use semantic token names (see `rules/tokens-use-semantic-names.md`)
 
 ### Phase 6: Create Storybook Story
+
+**Skip this phase if Storybook is not configured in the project.**
 
 Generate Storybook documentation showing all variants:
 - Default story with primary args
@@ -196,7 +270,16 @@ After implementation, validate:
 - Keyboard navigation functions properly
 - No hardcoded values remain — all visual properties use tokens
 
-### Phase 8: Cleanup Junk Files
+### Phase 8: Cleanup & Registration
+
+#### 8a: Register in showcase
+
+Update `apps/[project]/src/pages/ComponentsPage.tsx`:
+- Add import for the component's `showcase` named export
+- Add entry to the registry array
+- Keep all existing entries intact
+
+#### 8b: Cleanup junk files
 
 The Figma MCP sometimes generates temporary files during extraction. Distinguish between artifacts to remove and intentional assets to keep:
 
@@ -208,6 +291,28 @@ The Figma MCP sometimes generates temporary files during extraction. Distinguish
 - Everything under `[outputDir]/public/icons/` — these were downloaded deliberately
 - `Icons.tsx` barrel file and its directory
 - Any asset referenced by a generated component
+
+### Phase 9: Page Extraction (full-page layouts)
+
+**Use when** the Figma node is a CANVAS or top-level FRAME representing a full page (e.g., "Fornecedores - perfil sacado"), NOT an individual component.
+
+**How to detect**: The node is a page if its Figma data exceeds ~100K chars, or if its children are composed instances of multiple DS components (sidebar + header + content + table + pagination).
+
+**Pages are NOT components** — they are compositions of existing components with specific data. The pipeline is fundamentally different:
+
+1. **Do NOT re-implement sub-components** — import and use existing ones
+2. **Extract real data from Figma** — every text, column, row, button label comes from the Figma data
+3. **Never invent content** — if it's not in the Figma, it's not in the page
+
+**Delegate to `@page-extractor` agent** (`.claude/agents/page-extractor.md`) which implements the full methodology from `references/page-extraction-guide.md`:
+
+- Chunked reading of large Figma payloads via python3
+- Component instance → React component mapping via `componentId`
+- Per-section data extraction (sidebar state, breadcrumbs, headers, tables, pagination)
+- Page spec generation → mechanical TSX code generation
+- Route registration in `main.tsx`
+
+**Output**: `apps/[project]/src/pages/[PageName].tsx` + route in `main.tsx`
 
 ## Output Structure
 
@@ -255,6 +360,30 @@ User: "Write unit tests for this payment service."
 Expected behavior: Do not prioritize `figma-to-react-components`; choose a more relevant skill or proceed without it.
 
 ## Troubleshooting
+
+### Ícone invisível em variantes claras
+
+- **Causa:** SVG exportado com fill hardcoded da cor do variant default (ex: `#FCFCFC` branco).
+- **Detecção:** comparar fill do ícone em variant escuro vs claro — se diferirem, é currentColor.
+- **Solução:** marcar `colorStrategy: "currentColor"` no spec, usar `mask-image` no código.
+
+### Header/seção duplicada na página gerada
+
+- **Causa:** extrator listou o mesmo bloco (título + ações) como filho de dois containers distintos.
+- **Detecção:** para containers com `space-between`, verificar se algum filho aparece em ambos os lados.
+- **Solução:** usar `alignment: "left"`/`"right"` em cada filho de container `space-between`.
+
+### Componente existente recriado como markup inline
+
+- **Causa:** gerador não consultou `component-registry.json` antes de criar markup.
+- **Detecção:** spec tem nodeId em `subComponents` → registry tem esse nodeId → gerador ignorou.
+- **Solução:** obrigar consulta ao registry como primeiro passo da Phase 4.
+
+### Gerador inventou estilos não presentes no Figma
+
+- **Causa:** spec tinha gap e gerador preencheu com algo "plausível".
+- **Detecção:** elemento gerado não tem referência no spec.
+- **Solução:** spec-locked — gap no spec vira TODO no código, nunca invenção.
 
 ### Figma Tokens Not Found
 
