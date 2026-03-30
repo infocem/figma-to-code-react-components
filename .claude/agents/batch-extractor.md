@@ -26,9 +26,26 @@ component-name: https://www.figma.com/design/<fileKey>/...?node-id=<nodeId>
 
 **Project detection**: Check `.claude/CLAUDE.md` for the project name and output paths. Default project is `blue-hare-ds`.
 
-## Phase 1: Parallel extraction in batches of 6
+### Phase 0b: Classify each item (page vs component)
 
-For each batch of up to 6 components, launch sub-agents in parallel using the Agent tool. Each sub-agent receives this prompt template:
+For each item in the manifest, call `mcp__figma__get_figma_data(fileKey, nodeId)` and classify:
+
+**It's a PAGE if ANY of these are true:**
+- The result exceeds the MCP token limit and is saved to a file (payload > ~100K chars)
+- The root node's direct children are NOT a single `COMPONENT_SET` — they are multiple distinct sections (sidebar, header, content, table)
+- The metadata `componentSets` section lists 0 component sets owned by this node
+- The manifest line name suggests a page/screen (e.g., "page", "drawer simulation")
+
+**It's a COMPONENT otherwise.**
+
+Separate items into two lists: `components[]` and `pages[]`.
+
+- Components → extract with the standard sub-agent prompt (Phase 1 below)
+- Pages → extract with `@page-extractor` agent AFTER all components are done (pages depend on existing components)
+
+## Phase 1: Parallel extraction in batches of 6 (components only)
+
+For each batch of up to 6 **components**, launch sub-agents in parallel using the Agent tool. Each sub-agent receives this prompt template:
 
 ```
 You are extracting a Figma component into a React component for the Blue Hare DS project at {appDir}.

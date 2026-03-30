@@ -66,6 +66,30 @@ The agents are thin orchestrators — all rules (tokens, aria, BEM, naming) live
 
 Follow these phases in order:
 
+### Phase 0: Node Classification (page vs component)
+
+**Before Phase 1**, determine if the Figma node is a **page** or a **component**:
+
+1. Call `mcp__figma__get_figma_data(fileKey, nodeId)`.
+2. Check the result:
+
+**It's a PAGE if ANY of these are true:**
+- The result exceeds the MCP token limit and is saved to a file (payload > ~100K chars)
+- The root node `type` is `CANVAS` and its direct children are **not** a single `COMPONENT_SET` — instead they are multiple distinct sections (sidebar instances, header frames, content frames, table instances)
+- The metadata `componentSets` section lists **0 component sets** owned by this node (the node uses components but doesn't define them)
+- The node name suggests a page/screen (e.g., "Fornecedores - perfil sacado", "Dashboard", etc.)
+
+**It's a COMPONENT if:**
+- The root node contains `COMPONENT_SET` or `COMPONENT` children defining variants
+- The payload is manageable (< 100K chars)
+- The metadata shows component sets owned by this node
+
+**If it's a PAGE** → delegate to the `@page-extractor` agent (`.claude/agents/page-extractor.md`). Do NOT proceed with Phase 1-8. Pass the fileKey, nodeId, project name, and a PascalCase page name derived from the node name.
+
+**If processing a manifest file** (multiple URLs), classify each URL before launching sub-agents. Use `@page-extractor` for pages and the standard component extraction prompt for components.
+
+**If it's a COMPONENT** → proceed with Phase 1 below.
+
 ### Phase 1: Extract Figma Design Context
 
 Use Figma MCP tools to gather component information:
