@@ -328,10 +328,31 @@ After implementation, validate:
 
 #### 8a: Register in showcase
 
-Update `apps/[project]/src/pages/ComponentsPage.tsx`:
+Update `apps/[project]/src/showcase/registry.ts`:
 - Add import for the component's `showcase` named export
-- Add entry to the registry array
+- Add `entry(showcaseVar, 'Category')` to the `components` array
+- Assign the correct category based on component type:
+
+| Category | Components |
+|----------|-----------|
+| Forms | Input, Field, TextArea, Dropdown, Autocomplete, Checkbox, Radio, Switch, Slider, DatePicker, Label, DefinedField |
+| Actions | Button, ButtonGroup, Chip, Tag, Link, Anchor |
+| Navigation | Tabs, Breadcrumb, Pagination, Stepper |
+| Data Display | Table, List, Tree, Badge, Avatar, Placeholder, Keyline |
+| Feedback | Toast, Message, Snackbar, Tooltip, Loader, ProgressBar, ProgressCircle |
+| Overlay | Drawer, Carousel, Modal |
+
 - Keep all existing entries intact
+- **Do NOT use the old `ComponentsPage.tsx`** — it is obsolete
+
+**If the showcase infrastructure doesn't exist yet** (new project), scaffold it first:
+- `src/showcase/registry.ts` — component + page registry with categories
+- `src/showcase/ShowcaseLayout.tsx` + `.scss` — sidebar nav with search, category groups, tabs (Components/Pages)
+- `src/showcase/AllComponentsView.tsx` — grid of all components grouped by category
+- `src/showcase/ComponentView.tsx` — individual component view with ErrorBoundary
+- `src/showcase/PagesView.tsx` — list of extracted pages
+- `src/showcase/PageWrapper.tsx` — floating "Back to Showcase" button for full-screen pages
+- Update `main.tsx` with routes: `/` (all), `/components/:slug` (individual), `/pages` (list), `/pages/:slug` (full-screen)
 
 #### 8b: Cleanup junk files
 

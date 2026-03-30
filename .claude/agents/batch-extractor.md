@@ -142,14 +142,26 @@ Return a summary of what was created and any new tokens added.
 
 After ALL sub-agents complete:
 
-### 2a. Register showcases in ComponentsPage.tsx
+### 2a. Scaffold showcase (if it doesn't exist)
 
-1. Read `src/pages/ComponentsPage.tsx`
+Check if `src/showcase/registry.ts` exists. If not, scaffold the full showcase infrastructure:
+- `src/showcase/registry.ts` — component + page registry with categories
+- `src/showcase/ShowcaseLayout.tsx` + `.scss` — sidebar nav with search, category groups, Components/Pages tabs
+- `src/showcase/AllComponentsView.tsx` — grid of all components grouped by category
+- `src/showcase/ComponentView.tsx` — individual component view with ErrorBoundary
+- `src/showcase/PagesView.tsx` — list of extracted pages
+- `src/showcase/PageWrapper.tsx` — floating "Back to Showcase" button for full-screen pages
+- Update `main.tsx` with routes: `/` (all), `/components/:slug` (individual), `/pages` (list), `/pages/:slug` (full-screen)
+
+### 2b. Register showcases in registry.ts
+
+1. Read `src/showcase/registry.ts`
 2. Find all components with `export const showcase` via: `grep -rl "export const showcase" src/components/`
-3. For each component not already imported in ComponentsPage.tsx:
+3. For each component not already imported in registry.ts:
    - Add import: `import { showcase as {name}Showcase } from '../components/{Name}/{Name}';`
-   - Add to the showcases array
-4. Keep existing ErrorBoundary wrapper if present
+   - Add `entry({name}Showcase, '{Category}')` to the `components` array
+   - Assign category: Forms, Actions, Navigation, Data Display, Feedback, or Overlay
+4. For pages extracted via `@page-extractor`, add entries to the `pages` array and corresponding routes in `main.tsx`
 
 ### 2b. Fix TypeScript errors
 

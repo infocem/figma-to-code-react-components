@@ -23,11 +23,15 @@ Projeto de pipeline para converter componentes Figma em código React production
 | App de showcase | `apps/[project]/` |
 | Componentes | `apps/[project]/src/components/[ComponentName]/` |
 | Tokens | `apps/[project]/src/tokens/` |
+| Brand tokens | `apps/[project]/src/tokens/brands/[brand].css` |
 | Ícones (assets) | `apps/[project]/public/icons/` |
 | Specs extraídos | `extraction/[project]/specs/` |
 | Component registry | `extraction/[project]/component-registry.json` |
 | Status de extração | `extraction/[project]/status.json` |
-| Showcase registry | `apps/[project]/src/pages/ComponentsPage.tsx` |
+| **Showcase registry** | `apps/[project]/src/showcase/registry.ts` |
+| Showcase layout | `apps/[project]/src/showcase/ShowcaseLayout.tsx` |
+| Showcase views | `apps/[project]/src/showcase/AllComponentsView.tsx`, `ComponentView.tsx`, `PagesView.tsx` |
+| Pages extraídas | `apps/[project]/src/pages/[PageName].tsx` |
 
 ## Regras de ícones
 
@@ -46,4 +50,20 @@ export const showcase = {
 };
 ```
 
-Registrar em `apps/[project]/src/pages/ComponentsPage.tsx` (import + entry no array).
+Registrar em `apps/[project]/src/showcase/registry.ts`:
+1. Adicionar import do showcase
+2. Adicionar `entry(showcaseVar, 'Category')` no array `components`
+3. Categorias disponíveis: `Forms`, `Actions`, `Navigation`, `Data Display`, `Feedback`, `Overlay`
+
+| Categoria | Componentes típicos |
+|-----------|-------------------|
+| Forms | Input, Field, TextArea, Dropdown, Autocomplete, Checkbox, Radio, Switch, Slider, DatePicker, Label |
+| Actions | Button, ButtonGroup, Chip, Tag, Link, Anchor |
+| Navigation | Tabs, Breadcrumb, Pagination, Stepper |
+| Data Display | Table, List, Tree, Badge, Avatar, Placeholder, Keyline |
+| Feedback | Toast, Message, Snackbar, Tooltip, Loader, ProgressBar, ProgressCircle |
+| Overlay | Drawer, Carousel |
+
+Pages extraídas são registradas no array `pages` do mesmo `registry.ts`, com rota em `main.tsx` fora do `ShowcaseLayout` (full-screen) e envolvidas em `PageWrapper` para ter botão "Back to Showcase".
+
+**NÃO usar `ComponentsPage.tsx`** — este arquivo é obsoleto. O showcase usa a estrutura em `src/showcase/`.
