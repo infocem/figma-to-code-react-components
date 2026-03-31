@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { useTextField } from 'react-aria'
 import clsx from 'clsx'
-import './DefinedField.css'
 
 export interface DefinedFieldProps {
   label?: string
@@ -52,7 +51,8 @@ export function DefinedField({
         </label>
       )}
       <div className={clsx(
-        'defined-field__input-wrapper flex items-center h-field-height border border-border rounded-md bg-bg overflow-hidden',
+        'flex items-center h-field-height border border-border rounded-md bg-bg overflow-hidden',
+        'focus-within:border-[var(--focus-ring-color)] focus-within:shadow-[0_0_0_1px_var(--focus-ring-color)]',
         disabled && 'bg-bg-disabled border-border-disabled',
       )}>
         {preTab && (

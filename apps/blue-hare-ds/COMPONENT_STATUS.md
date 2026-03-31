@@ -23,51 +23,51 @@
 | 5 | BrandSwitcher | done | ok | sem ref no Figma (componente auxiliar) |
 | 6 | Breadcrumb | done | adjusted | separador chevron, no-underline, prop showExternalIcon |
 | 7 | Button | done | adjusted | focus-ring unificado com global, .css removido |
-| 8 | ButtonGroup | partial | adjusted | focus ring c/ tokens |
+| 8 | ButtonGroup | done | adjusted | .css removido, focus ring via before:* |
 | 9 | Carousel | done | adjusted | botões circulares c/ border, progress track bar, anatomy do DS |
-| 10 | Checkbox | partial | adjusted | error/disabled migrados p/ Tailwind, focus ring c/ tokens |
+| 10 | Checkbox | done | adjusted | .css removido, group-hover + peer-focus-visible |
 | 11 | Chip | done | adjusted | ícone ⊗ circular, todas as 6 variantes no showcase, fix typeClasses |
 | 12 | DatePicker | done | adjusted | calendar popup custom, day states, navegação mês/ano, formato DD/MM/YYYY |
-| 13 | DefinedField | partial | adjusted | disabled migrado p/ Tailwind, focus-within c/ tokens |
+| 13 | DefinedField | done | adjusted | .css removido, focus-within inline |
 | 14 | Drawer | done | ok | conteúdo do drawer é interativo (abre com click) |
 | 15 | Dropdown | done | adjusted | showcase com ícones e hint, estado aberto é interativo (click) |
-| 16 | Field | partial | adjusted | .css mínimo (focus-within ring), disabled migrado |
+| 16 | Field | done | adjusted | .css removido, focus-within:after:* inline |
 | 17 | Input | done | ok | showcase mostra variantes diferentes do spec sheet |
 | 18 | Keyline | done | ok | weight variants ausentes mas aceitável |
 | 19 | Label | done | ok | layout difere levemente, funcional |
 | 20 | Link | done | adjusted | ícones external-link + arrow-right do Figma, variante basic/inline, hover bg |
 | 21 | List | done | adjusted | showcase com 8 items e heading (fiel ao Figma) |
-| 22 | Loader | partial | ok | .css necessário (@keyframes) |
+| 22 | Loader | done | ok | .css removido, @keyframes movido p/ tailwind.css |
 | 23 | Menu | done | adjusted | showcase com ícones user/lock, selected + disabled states |
 | 24 | Message | done | adjusted | ícones por variante do Figma, close icon do Figma, removido SVG inline |
-| 25 | Navigation | partial | ok | .css necessário (focus ring c/ inset custom) |
+| 25 | Navigation | done | ok | .css removido, focus ring via before:* |
 | 26 | Pagination | done | adjusted | focus-ring unificado com global, .css removido |
 | 27 | Placeholder | done | adjusted | showcase atualizado com variantes (content, empty-state, minimal) |
 | 28 | Progress | done | adjusted | circular progress adicionado (SVG donut ring), showcase atualizado |
-| 29 | RadioButton | partial | adjusted | disabled migrado p/ Tailwind, focus ring c/ tokens |
+| 29 | RadioButton | done | adjusted | .css removido, group-hover + peer-focus-visible |
 | 30 | Sidebar | done | adjusted | collapsed mode, multi-variantes showcase, footer user menu, expandedKeys controlado |
 | 31 | Slider | partial | ok | .css necessário (vendor pseudo-elements) |
 | 32 | Snackbar | done | adjusted | ícone por variante do Figma, showcase c/ link em todas |
 | 33 | Stepper | done | ok | estrutura ok, node sizes levemente menores (minor) |
-| 34 | Switch | partial | adjusted | disabled migrado p/ Tailwind, focus ring c/ tokens |
-| 35 | Table | partial | adjusted | header font-weight, border variants, row selection |
-| 36 | Tabs | partial | adjusted | focus ring c/ tokens |
+| 34 | Switch | done | adjusted | .css removido, group-hover + peer-focus-visible |
+| 35 | Table | done | adjusted | .css removido, sibling borders + hover via Tailwind |
+| 36 | Tabs | done | adjusted | .css removido, focus ring via before:* |
 | 37 | Tag | done | ok | showcase reduzido (sem hover/focus matrix) |
-| 38 | TextArea | partial | ok | .css mínimo (resize handle cosmético) |
+| 38 | TextArea | done | ok | .css removido, resize handle via bg-[url()] |
 | 39 | Toast | done | ok | |
 | 40 | Tooltip | partial | ok | .css necessário (placement, clip-path, filter) |
-| 41 | Tree | partial | adjusted | focus ring c/ tokens, hover guard mantido |
+| 41 | Tree | done | adjusted | .css removido, hover:not-aria-disabled + focus-visible:shadow |
 
 ## Telas
 
 | Tela | Figma check | Notes |
 |------|-------------|-------|
-| FornecedoresScreen | pending | tabela inline (não usa componente Table), shadows hardcoded |
+| FornecedoresScreen | adjusted | shadow-card token, Sidebar component (collapsed), TS errors corrigidos, tbody com Tailwind sibling borders |
 
 ## Resumo
 
-- **Tailwind done**: 24/41
-- **Tailwind partial** (com .css residual justificado): 17/41
+- **Tailwind done**: 36/41
+- **Tailwind partial** (com .css residual justificado): 5/41 (Avatar, Slider, Tooltip)
 - **Figma ok**: 16/41
 - **Figma adjusted** (corrigido nesta sessão): 25/41
 - **Figma issue** (precisa correção): 0/41

@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { useTextField } from 'react-aria'
 import clsx from 'clsx'
 import { IdentityIcon, EyeIcon } from '../Icons'
-import './Field.css'
 
 export type FieldStatus = 'default' | 'hover' | 'focus' | 'disabled' | 'error' | 'success'
 
@@ -53,9 +52,9 @@ export function Field({
   return (
     <div
       className={clsx(
-        'field',
-        resolvedStatus === 'disabled' && 'field--disabled',
         'flex flex-row items-center gap-[var(--field-gap)] p-[var(--field-padding)] w-field-width h-field-height bg-bg border border-border rounded-md relative transition-[border-color,background] duration-150',
+        'after:content-[""] after:absolute after:inset-[calc(-1*var(--focus-ring-offset))] after:border-[length:var(--focus-ring-width)] after:border-transparent after:rounded-[inherit] after:pointer-events-none after:transition-[border-color] after:duration-150',
+        resolvedStatus !== 'disabled' && 'focus-within:border-[var(--color-border-focus)] focus-within:after:border-[var(--focus-ring-color)]',
         resolvedStatus === 'hover' && 'border-border-hover bg-bg-hover',
         resolvedStatus === 'focus' && 'border-border-focus',
         resolvedStatus === 'disabled' && 'bg-bg-disabled border-border-disabled cursor-not-allowed',

@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { useLink, useFocusRing } from 'react-aria'
 import clsx from 'clsx'
-import './Navigation.css'
 
 export interface NavItem {
   key: string
@@ -39,7 +38,7 @@ function NavLink({ item, isActive, onPress }: { item: NavItem; isActive: boolean
         'inline-flex items-center gap-md p-2 font-sans text-md font-regular leading-md text-text no-underline relative outline-none',
         'hover:text-primary-hover',
         isActive && 'text-primary-hover font-semibold',
-        isFocusVisible && 'nav__item--focus',
+        isFocusVisible && 'before:content-[""] before:absolute before:inset-y-[-5px] before:inset-x-[-29px] before:border-[1.5px] before:border-primary before:rounded-md before:pointer-events-none',
       )}
     >
       {item.icon && <span className="flex items-center" aria-hidden="true">{item.icon}</span>}

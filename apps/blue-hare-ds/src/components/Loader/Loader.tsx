@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import './Loader.css'
 
 export type LoaderSize = 'x-small' | 'small' | 'medium' | 'large'
 export type LoaderType = 'primary' | 'secondary'

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import './Tree.css'
 
 export interface TreeNode {
   key: string
@@ -36,10 +35,10 @@ function TreeNodeItem({ node, selectedKey, expanded, onToggle, onSelect, depth }
     <li className={clsx('flex flex-col', node.disabled && 'tree__node--disabled')}>
       <button
         className={clsx(
-          'tree__item',
           'flex flex-row items-center gap-2 w-full bg-transparent border-none rounded-sm',
           'font-sans text-md font-regular text-text text-left outline-none cursor-pointer',
-          'hover:not-disabled:bg-bg-hover hover:not-disabled:text-primary',
+          'hover:not-aria-disabled:bg-bg-hover hover:not-aria-disabled:text-primary',
+          'focus-visible:shadow-[0_0_0_var(--focus-ring-width)_var(--focus-ring-color)]',
           isSelected && 'bg-bg-hover text-primary font-semibold',
           node.disabled && 'text-text-disabled cursor-not-allowed',
         )}

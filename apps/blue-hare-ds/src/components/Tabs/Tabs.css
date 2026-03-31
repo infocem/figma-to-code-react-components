@@ -1,9 +1,0 @@
-/* Focus ring — pseudo-element cannot be expressed in Tailwind */
-.tabs__tab--focus::before {
-  content: '';
-  position: absolute;
-  inset: calc(-1 * var(--focus-ring-offset));
-  border: var(--focus-ring-width) solid var(--focus-ring-color);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}

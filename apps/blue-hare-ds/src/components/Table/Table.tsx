@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
-import './Table.css'
 
 export type SortDirection = 'asc' | 'desc' | null
 
@@ -39,9 +38,9 @@ function SortButton({ onPress, direction, label }: SortButtonProps) {
       {...buttonProps}
       ref={ref}
       className={clsx(
-        'table__sort-btn',
         'flex items-center justify-center bg-transparent border-0 p-[2px] cursor-pointer rounded-sm text-text-secondary outline-none opacity-50 hover:opacity-100',
-        (direction === 'asc' || direction === 'desc') && 'opacity-100 text-primary table__sort-btn--active',
+        'focus-visible:shadow-[0_0_0_1.5px_var(--color-primary)]',
+        (direction === 'asc' || direction === 'desc') && 'opacity-100 text-primary',
       )}
     >
       <img src="/icons/icon-sort-alt.svg" alt="" aria-hidden="true" width={12} height={12} />
@@ -109,7 +108,7 @@ export function Table<T extends Record<string, unknown>>({ columns, rows, keyFie
             ))}
           </tr>
         </thead>
-        <tbody className={clsx('table__body', border === 'none' && 'table__body--no-border')}>
+        <tbody className="[&>tr+tr]:border-t [&>tr+tr]:border-border">
           {sorted.map((row, i) => {
             const rowKey = String(row[keyField] ?? i)
             const isSelected = selectedKeys?.has(rowKey)
@@ -117,8 +116,9 @@ export function Table<T extends Record<string, unknown>>({ columns, rows, keyFie
               <tr
                 key={rowKey}
                 className={clsx(
-                  'table__row',
-                  isSelected && 'table__row--selected bg-primary text-text-on-primary',
+                  !isSelected && 'hover:bg-bg-hover',
+                  isSelected && 'bg-primary [&>td]:text-text-on-primary',
+                  border === 'none' && '[&+&]:border-t-0',
                   border === 'full' && 'border-b border-border',
                 )}
                 onClick={onSelectionChange ? () => {

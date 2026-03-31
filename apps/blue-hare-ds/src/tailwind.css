@@ -148,6 +148,7 @@
   --shadow-dropdown: var(--shadow-dropdown);
   --shadow-snackbar: var(--shadow-snackbar);
   --shadow-drawer: var(--shadow-drawer);
+  --shadow-card: var(--shadow-card);
 
   /* ─── Custom sizes (accessible via w-field-height, h-icon-md, etc.) ─────── */
   --spacing-field-height: var(--field-height);
@@ -187,4 +188,14 @@
   .focus-ring:focus-visible::after {
     border-color: var(--focus-ring-color);
   }
+}
+
+/* ─── Loader animation (cannot be expressed as Tailwind utility) ─────────── */
+@keyframes loader-fade {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 1;   }
+}
+
+.loader-dot-fade {
+  animation: loader-fade 1.2s ease-in-out infinite;
 }

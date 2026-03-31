@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { useRadio, useRadioGroup } from 'react-aria'
 import { useRadioGroupState } from 'react-stately'
 import clsx from 'clsx'
-import './RadioButton.css'
 
 // ── RadioGroup ──────────────────────────────────────────────────────────────
 
@@ -68,21 +67,22 @@ export function RadioButton({ children, value, isDisabled, className }: RadioBut
   return (
     <label
       className={clsx(
-        'radio-button',
-        isSelected && 'radio-button--active',
-        disabled && 'radio-button--disabled',
-        'inline-flex flex-row items-center gap-sm cursor-pointer font-sans text-md leading-md text-text select-none',
+        'group inline-flex flex-row items-center gap-sm cursor-pointer font-sans text-md leading-md text-text select-none',
         disabled && 'cursor-not-allowed',
         className,
       )}
     >
-      <input {...inputProps} ref={ref} className="radio-button__input absolute w-px h-px opacity-0 m-0" />
+      <input {...inputProps} ref={ref} className="peer absolute w-px h-px opacity-0 m-0" />
       <span
         className={clsx(
-          'radio-button__control',
           'flex items-center justify-center w-[22px] h-[22px] rounded-full border-[1.5px] border-border bg-bg shrink-0 relative transition-[background,border-color] duration-150',
           isSelected && !disabled && 'bg-primary border-primary',
           disabled && 'bg-bg-disabled border-border-disabled',
+          // hover
+          !disabled && !isSelected && 'group-hover:border-[var(--color-primary-hover)] group-hover:bg-bg-hover',
+          !disabled && isSelected && 'group-hover:bg-[var(--color-primary-hover)] group-hover:border-[var(--color-primary-hover)]',
+          // focus ring
+          'peer-focus-visible:after:content-[""] peer-focus-visible:after:absolute peer-focus-visible:after:inset-[calc(-1*var(--focus-ring-offset))] peer-focus-visible:after:border-[length:var(--focus-ring-width)] peer-focus-visible:after:border-[var(--focus-ring-color)] peer-focus-visible:after:rounded-[inherit]',
         )}
         aria-hidden="true"
       >

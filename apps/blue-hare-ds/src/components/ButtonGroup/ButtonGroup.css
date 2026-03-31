@@ -1,8 +1,0 @@
-/* Focus ring — pseudo-element cannot be expressed in Tailwind */
-.btn-group__item--focus::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border: var(--focus-ring-width) solid var(--focus-ring-color);
-  pointer-events: none;
-}

@@ -1,7 +1,6 @@
 import { useState, useRef, useId } from 'react'
 import { useFocusRing } from 'react-aria'
 import clsx from 'clsx'
-import './Tabs.css'
 
 export interface TabItem {
   key: string
@@ -48,7 +47,6 @@ function TabButton({
       tabIndex={isSelected ? 0 : -1}
       onClick={() => !item.disabled && onSelect()}
       className={clsx(
-        'tabs__tab',
         // base
         'inline-flex items-center justify-center gap-2 px-md py-2',
         'border-0 border-b-2 border-border bg-transparent',
@@ -58,8 +56,8 @@ function TabButton({
         isSelected && 'border-b-primary font-semibold',
         // disabled
         item.disabled && 'text-text-muted border-b-border cursor-not-allowed',
-        // focus ring hook
-        isFocusVisible && 'tabs__tab--focus',
+        // focus ring
+        isFocusVisible && 'before:content-[""] before:absolute before:inset-[calc(-1*var(--focus-ring-offset))] before:border-[length:var(--focus-ring-width)] before:border-[var(--focus-ring-color)] before:rounded-sm before:pointer-events-none',
         // hover states handled via CSS residual (needs :not compound)
         !item.disabled && !isSelected && 'hover:bg-bg-hover hover:border-b-primary-hover hover:text-primary-hover',
         isSelected && !item.disabled && 'hover:bg-bg-hover',

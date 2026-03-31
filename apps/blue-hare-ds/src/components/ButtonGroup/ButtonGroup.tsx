@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { useButton, useFocusRing } from 'react-aria'
 import clsx from 'clsx'
-import './ButtonGroup.css'
 
 export type ButtonGroupType = 'default' | 'toggle' | 'icon'
 
@@ -44,7 +43,6 @@ function GroupButton({ item, isSelected, isLast, isIconOnly, onPress, showLabel 
       {...focusProps}
       ref={ref}
       className={clsx(
-        'btn-group__item',
         'relative inline-flex items-center justify-center',
         'font-sans text-md font-regular leading-md',
         'outline-none cursor-pointer border-none',
@@ -56,7 +54,7 @@ function GroupButton({ item, isSelected, isLast, isIconOnly, onPress, showLabel 
           : item.disabled
             ? 'bg-bg-disabled text-text-secondary cursor-not-allowed border-r-border'
             : 'bg-transparent text-primary-hover hover:bg-bg-hover',
-        isFocusVisible && 'btn-group__item--focus',
+        isFocusVisible && 'before:content-[""] before:absolute before:inset-px before:border-[length:var(--focus-ring-width)] before:border-[var(--focus-ring-color)] before:pointer-events-none',
       )}
     >
       {item.icon && (

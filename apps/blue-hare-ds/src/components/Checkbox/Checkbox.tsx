@@ -3,7 +3,6 @@ import { useCheckbox } from 'react-aria'
 import { useToggleState } from 'react-stately'
 import { CheckIcon, MinusIcon } from '../Icons'
 import clsx from 'clsx'
-import './Checkbox.css'
 
 export type CheckboxStatus = 'default' | 'hover' | 'focus' | 'disabled' | 'error'
 export type CheckboxType = 'default' | 'selected' | 'indeterminate'
@@ -56,23 +55,24 @@ export function Checkbox({
   return (
     <label
       className={clsx(
-        'checkbox',
-        `checkbox--${type}`,
-        isInvalid && 'checkbox--error',
-        'inline-flex flex-row items-center gap-sm cursor-pointer font-sans text-md leading-md text-text select-none',
-        isDisabled && 'cursor-not-allowed checkbox--disabled',
+        'group inline-flex flex-row items-center gap-sm cursor-pointer font-sans text-md leading-md text-text select-none',
+        isDisabled && 'cursor-not-allowed',
         className,
       )}
     >
-      <input {...inputProps} ref={ref} className="checkbox__input absolute w-px h-px opacity-0 m-0" />
+      <input {...inputProps} ref={ref} className="peer absolute w-px h-px opacity-0 m-0" />
       <span
         className={clsx(
-          'checkbox__control',
           'flex items-center justify-center shrink-0 rounded-sm border border-border bg-bg relative transition-[background,border-color] duration-150',
           size === 'medium' ? 'w-[22px] h-[22px]' : 'w-[16px] h-[16px]',
           isActive && !isDisabled && !isInvalid && 'bg-primary border-primary',
           isInvalid && 'bg-error-bg border-border-error',
           isDisabled && 'bg-bg-disabled border-border-disabled',
+          // hover: parent→child (group-hover)
+          !isDisabled && !isActive && 'group-hover:border-[var(--color-primary-hover)] group-hover:bg-bg-hover',
+          !isDisabled && isActive && 'group-hover:bg-[var(--color-primary-hover)] group-hover:border-[var(--color-primary-hover)]',
+          // focus ring: sibling (peer-focus-visible)
+          'peer-focus-visible:after:content-[""] peer-focus-visible:after:absolute peer-focus-visible:after:inset-[calc(-1*var(--focus-ring-offset))] peer-focus-visible:after:border-[length:var(--focus-ring-width)] peer-focus-visible:after:border-[var(--focus-ring-color)] peer-focus-visible:after:rounded-[inherit]',
         )}
         aria-hidden="true"
       >

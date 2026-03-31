@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { Button } from '../../components/Button/Button'
 import { Pagination } from '../../components/Pagination/Pagination'
 import { Breadcrumb } from '../../components/Breadcrumb/Breadcrumb'
+import { Sidebar } from '../../components/Sidebar/Sidebar'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -30,49 +31,6 @@ const allData: Fornecedor[] = [
   { id: '8', cnpj: '67.890.123/0001-67', empresa: 'Unidos Venceremos S.A.',      contato: 'vendas@unidosvenceremos.com',   acionistas: '3/3', status: 'approved', statusLabel: 'Aprovado', categoria: 'Grupo Teta',    regrasDaPlataforma: 'Ativo',   credito: 'R$ 90.000,00'  },
   { id: '9', cnpj: '78.901.234/0001-78', empresa: 'Amanhecer Feliz Agronegócios',contato: 'qualidade@amanhecerfeliz.com',  acionistas: '3/3', status: 'approved', statusLabel: 'Aprovado', categoria: 'Grupo Iota',    regrasDaPlataforma: 'Ativo',   credito: 'R$ 150.000,00' },
 ]
-
-const PAGE_SIZE = 9
-
-// ── Sidebar ───────────────────────────────────────────────────────────────────
-
-const SIDEBAR_ITEMS = [
-  { key: 'dashboard',  icon: '/icons/icon-grid-1x2.svg',   label: 'Dashboard'   },
-  { key: 'recebiveis', icon: '/icons/icon-receipt.svg',     label: 'Recebíveis'  },
-  { key: 'caixa',      icon: '/icons/icon-cash.svg',        label: 'Caixa'       },
-  { key: 'sacados',    icon: '/icons/icon-store.svg',       label: 'Sacados'     },
-  { key: 'ajustes',    icon: '/icons/icon-adjustments.svg', label: 'Ajustes'     },
-  { key: 'relatorios', icon: '/icons/icon-grid.svg',        label: 'Relatórios'  },
-]
-
-function FornecedoresSidebar({ activeKey }: { activeKey: string }) {
-  return (
-    <aside className="flex flex-col items-center justify-between pt-[64px] pb-8 px-1 bg-bg border-r border-r-[0.5px] border-border shrink-0 w-[56px]">
-      <nav className="w-full" aria-label="Navegação principal">
-        <ul className="list-none m-0 p-0 flex flex-col items-center gap-4">
-          {SIDEBAR_ITEMS.map(item => (
-            <li key={item.key}>
-              <button
-                className={clsx(
-                  'flex items-center justify-center w-[40px] h-[40px] border-none rounded-md cursor-pointer p-[8px] text-text-secondary transition-[background] duration-150',
-                  item.key === activeKey
-                    ? 'bg-primary [&_img]:[filter:brightness(0)_invert(1)]'
-                    : 'bg-transparent hover:bg-bg-hover',
-                )}
-                aria-label={item.label}
-                aria-current={item.key === activeKey ? 'page' : undefined}
-              >
-                <img src={item.icon} alt="" width={24} height={24} />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <div className="flex items-center justify-center w-full">
-        <img src="/icons/icon-account.svg" alt="Conta" width={24} height={24} className="opacity-60" />
-      </div>
-    </aside>
-  )
-}
 
 // ── Status badge ──────────────────────────────────────────────────────────────
 
@@ -107,10 +65,6 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
     else { setSortCol(key); setSortDir('asc') }
   }
 
-  function toggleAll(e: React.ChangeEvent<HTMLInputElement>) {
-    setSelected(e.target.checked ? new Set(data.map(r => r.id)) : new Set())
-  }
-
   function toggleRow(id: string) {
     setSelected(prev => {
       const next = new Set(prev)
@@ -136,11 +90,10 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
     { key: 'credito',           label: 'Crédito',              sortable: false },
   ]
 
-  // Shared cell padding
   const cellPx = 'px-8 py-4'
 
   return (
-    <div className="bg-bg rounded-[12px] shadow-[0px_1px_1px_0px_rgba(80,98,134,0.22),0px_1px_0px_1px_rgba(106,124,160,0.08)] p-8 overflow-hidden">
+    <div className="bg-bg rounded-lg shadow-card p-8 overflow-hidden">
       {/* Toolbar */}
       <div className="flex items-center justify-end gap-8 mb-8">
         <Button variant="transparent" disabled>Redefinir</Button>
@@ -152,7 +105,7 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
           ].map(btn => (
             <button
               key={btn.label}
-              className="flex items-center justify-center w-[34px] h-[34px] border border-border-primary bg-transparent rounded-md cursor-pointer text-primary transition-[background] duration-150 p-4 hover:bg-bg-hover"
+              className="flex items-center justify-center w-[34px] h-[34px] border border-border bg-transparent rounded-md cursor-pointer text-primary transition-[background] duration-150 p-4 hover:bg-bg-hover"
               aria-label={btn.label}
             >
               <img src={btn.icon} alt="" width={18} height={18} />
@@ -167,7 +120,7 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
           <thead className="bg-bg-tag">
             <tr>
               {columns.map(col => (
-                <th key={col.key} className={clsx(cellPx, 'text-left font-semibold text-text-secondary whitespace-nowrap border-b border-b-[0.5px] border-border')}>
+                <th key={col.key} className={clsx(cellPx, 'text-left font-semibold text-text-secondary whitespace-nowrap border-b border-border')}>
                   <button
                     className="inline-flex items-center gap-2 bg-none border-none cursor-pointer font-sans text-md font-semibold text-text-secondary p-0 disabled:cursor-default"
                     onClick={() => col.sortable && handleSort(col.key)}
@@ -186,16 +139,16 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
                   </button>
                 </th>
               ))}
-              <th className={clsx(cellPx, 'text-left font-semibold text-text-secondary whitespace-nowrap border-b border-b-[0.5px] border-border')}>Opções</th>
+              <th className={clsx(cellPx, 'text-left font-semibold text-text-secondary whitespace-nowrap border-b border-border')}>Opções</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="[&>tr+tr]:border-t [&>tr+tr]:border-border">
             {sortedData.map(row => (
               <tr
                 key={row.id}
                 className={clsx(
-                  'border-b border-b-[0.5px] border-border cursor-pointer transition-[background] duration-100',
+                  'cursor-pointer transition-[background] duration-100',
                   'hover:bg-bg-hover',
                   selected.has(row.id) && 'bg-bg-hover',
                 )}
@@ -241,20 +194,37 @@ function FornecedoresTable({ data }: { data: Fornecedor[] }) {
 
 // ── Screen ────────────────────────────────────────────────────────────────────
 
+const sidebarItems = [
+  { key: 'dashboard',  label: 'Dashboard',  icon: <img src="/icons/icon-grid-1x2.svg" alt="" width={24} height={24} /> },
+  { key: 'recebiveis', label: 'Recebíveis', icon: <img src="/icons/icon-receipt.svg" alt="" width={24} height={24} /> },
+  { key: 'caixa',      label: 'Caixa',      icon: <img src="/icons/icon-cash.svg" alt="" width={24} height={24} /> },
+  { key: 'sacados',    label: 'Sacados',    icon: <img src="/icons/icon-store.svg" alt="" width={24} height={24} /> },
+  { key: 'ajustes',    label: 'Ajustes',    icon: <img src="/icons/icon-adjustments.svg" alt="" width={24} height={24} /> },
+  { key: 'relatorios', label: 'Relatórios', icon: <img src="/icons/icon-grid.svg" alt="" width={24} height={24} /> },
+]
+
 export function FornecedoresScreen() {
   const [page, setPage] = useState(1)
   const totalPages = 3
-  const pageData = allData
 
   return (
     <div className="flex flex-row min-h-screen bg-bg-tag">
-      {/* Sidebar */}
-      <FornecedoresSidebar activeKey="sacados" />
+      {/* Sidebar — collapsed mode (icons only) */}
+      <Sidebar
+        collapsed
+        items={sidebarItems}
+        activeKey="sacados"
+        footerUser={{
+          name: '',
+          avatar: <img src="/icons/icon-account.svg" alt="Conta" width={24} height={24} className="opacity-60" />,
+        }}
+        className="pt-[64px]"
+      />
 
       {/* Main */}
       <div className="flex flex-col flex-1 min-w-0">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-8 py-6 bg-bg shadow-[0px_1px_1px_0px_rgba(80,98,134,0.22),0px_1px_0px_1px_rgba(106,124,160,0.08)] shrink-0 gap-5">
+        <header className="flex items-center justify-between px-8 py-6 bg-bg shadow-card shrink-0 gap-5">
           <Breadcrumb
             items={[
               { label: 'Fornecedores', href: '#' },
@@ -269,7 +239,7 @@ export function FornecedoresScreen() {
           {/* Header row */}
           <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col gap-1">
-              <h1 className="font-sans text-lg font-semibold text-text m-0 leading-[var(--line-height-md)]">
+              <h1 className="font-sans text-lg font-semibold text-text m-0 leading-md">
                 Todos os fornecedores
               </h1>
               <p className="font-sans text-md font-regular text-text-secondary m-0">
@@ -285,7 +255,7 @@ export function FornecedoresScreen() {
 
           {/* Table section */}
           <div className="flex flex-col gap-6">
-            <FornecedoresTable data={pageData} />
+            <FornecedoresTable data={allData} />
           </div>
 
           {/* Pagination */}
