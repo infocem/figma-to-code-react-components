@@ -1,0 +1,192 @@
+/* ─── Layer 1: Primitives ──────────────────────────────────────────────────── */
+:root {
+  /* Blue palette (Brand liber) */
+  --blue-900: #122e41;
+  --blue-800: #1e4d6d;
+  --blue-600: #4b718a;
+  --blue-400: #7894a7;
+  --blue-100: #e9edf0;
+
+  /* Green palette (Brand teste) */
+  --green-dark: #001911;
+  --green-800: #007d57;
+  --green-600: #339779;
+  --green-400: #578f63;
+  --green-100: #e2efe4;
+
+  /* Neutral palette */
+  --neutral-900: #020202;
+  --neutral-700: #424242;
+  --neutral-600: #636363;
+  --neutral-400: #8f8f8f;
+  --neutral-200: #b7b7b7;
+  --neutral-150: #ebebeb;
+  --neutral-50:  #fcfcfc;
+  --neutral-0:   #ffffff;
+
+  /* Red (error/danger) */
+  --red-600: #ba6364;
+  --red-100: #f3cdcc;
+
+  /* Success (shared) */
+  --success-600: #578f63;
+  --success-100: #c6dfd9;
+
+  /* Tag/badge neutral bg */
+  --neutral-tag-bg: #f4f6f8;
+}
+
+/* ─── Layer 3: Brand overrides ─────────────────────────────────────────────── */
+
+/* Brand "liber" is the default (no override needed — Layer 2 already uses blue palette) */
+
+:root[data-brand="teste"] {
+  /* Primary palette → green */
+  --color-primary:         var(--green-800);
+  --color-primary-hover:   var(--green-600);
+  --color-primary-active:  var(--green-400);
+  --color-primary-dark:    var(--green-dark);
+
+  /* Page background → slightly warmer grey */
+  --color-bg-page:         #f5f5f5;
+
+  /* Hover bg → light green tint */
+  --color-bg-hover:        var(--green-100);
+
+  /* Border primary → green */
+  --color-border-primary:  var(--green-800);
+  --color-border-hover:    var(--green-600);
+  --color-border-focus:    var(--green-800);
+  --color-border-error:    var(--red-600);
+  --color-border-success:  var(--green-800);
+}
+
+/* ─── Layer 2: Semantic ────────────────────────────────────────────────────── */
+:root {
+  /* Brand / primary */
+  --color-primary:         var(--blue-800);
+  --color-primary-hover:   var(--blue-600);
+  --color-primary-active:  var(--blue-400);
+  --color-primary-dark:    var(--blue-900);
+
+  /* Text */
+  --color-text:                 var(--neutral-900);
+  --color-text-secondary:       var(--neutral-700);
+  --color-text-muted:           var(--neutral-600);
+  --color-text-placeholder:     var(--neutral-400);
+  --color-text-disabled:        var(--neutral-600);
+  --color-text-on-primary:      var(--neutral-50);
+
+  /* Backgrounds */
+  --color-bg:              var(--neutral-50);
+  --color-bg-page:         var(--neutral-0);
+  --color-bg-hover:        var(--blue-100);
+  --color-bg-disabled:     var(--neutral-150);
+  --color-bg-tag:          var(--neutral-tag-bg);
+
+  /* Borders */
+  --color-border:          var(--neutral-200);
+  --color-border-primary:  var(--blue-800);
+  --color-border-hover:    var(--blue-600);
+  --color-border-focus:    var(--blue-800);
+  --color-border-disabled: var(--neutral-200);
+  --color-border-error:    var(--red-600);
+  --color-border-success:  var(--green-600);
+
+  /* Status */
+  --color-error:           var(--red-600);
+  --color-error-bg:        var(--red-100);
+  --color-success:         var(--green-600);
+  --color-success-bg:      var(--green-100);
+  --color-required:        var(--red-600);
+
+  /* ─── Typography ───────────────────────────────────────────────────────── */
+  --font-family:           'Montserrat', sans-serif;
+  --font-weight-regular:   450;
+  --font-weight-semibold:  600;
+
+  --font-size-xs:          10px;
+  --font-size-sm:          12px;
+  --font-size-md:          14px;
+  --font-size-lg:          16px;
+  --font-size-xl:          18px;
+  --font-size-2xl:         20px;
+
+  --line-height-sm:        1.667;
+  --line-height-md:        1.571;
+
+  --letter-spacing-sm:     -0.028571em;
+
+  /* ─── Spacing ──────────────────────────────────────────────────────────── */
+  --spacing-1:  2px;
+  --spacing-2:  4px;
+  --spacing-3:  6px;
+  --spacing-4:  8px;
+  --spacing-5:  10px;
+  --spacing-6:  12px;
+  --spacing-7:  14px;
+  --spacing-8:  16px;
+  --spacing-9:  18px;
+  --spacing-10: 20px;
+  --spacing-12: 24px;
+  --spacing-16: 32px;
+  --spacing-20: 40px;
+  --spacing-24: 48px;
+
+  /* Semantic spacing aliases */
+  --spacing-xs:  var(--spacing-2);
+  --spacing-sm:  var(--spacing-4);
+  --spacing-md:  var(--spacing-6);
+  --spacing-lg:  var(--spacing-8);
+  --spacing-xl:  var(--spacing-10);
+
+  /* ─── Radius ───────────────────────────────────────────────────────────── */
+  --radius-xs:  2px;
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  8px;
+  --radius-full: 9999px;
+
+  /* ─── Icon sizes ───────────────────────────────────────────────────────── */
+  --icon-size-sm: 16px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
+
+  /* ─── Component sizes ──────────────────────────────────────────────────── */
+  --field-height:     48px;
+  --field-width:      310px;
+  --field-padding:    var(--spacing-md);
+  --field-gap:        var(--spacing-md);
+
+  /* Status / semantic colors */
+  --color-info:          #0055bc;
+  --color-info-bg:       #99c3f7;
+  --color-info-text:     #002a5e;
+  --color-info-border:   #006aeb;
+  --color-warning:       #ceab00;
+  --color-warning-bg:    #f8e8ab;
+  --color-warning-text:  #887000;
+  --color-warning-border:#efc700;
+  --color-success-text:  #1f4127;
+  --color-error-text:    #5a2426;
+
+  /* Dark bg (used for Tooltip) */
+  --color-bg-dark: #183e57;
+
+  /* ─── Focus ring ───────────────────────────────────────────────────────── */
+  --focus-ring-color:  var(--color-primary);
+  --focus-ring-width:  1.5px;
+  --focus-ring-offset: 4px;
+
+  /* ─── Elevation / shadows ──────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-snackbar: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+  --shadow-drawer: 0 0 40px -10px rgba(0, 0, 0, 0.3);
+  --shadow-tooltip: drop-shadow(0px 1px 1px rgba(80, 98, 134, 0.22)) drop-shadow(0px 1px 0px rgba(106, 124, 160, 0.08));
+
+  /* ─── Overlay ───────────────────────────────────────────────────────────── */
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+}

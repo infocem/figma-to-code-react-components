@@ -1,0 +1,5 @@
+/* Focus-within: child input receives focus — cannot use :focus-visible on wrapper */
+.defined-field__input-wrapper:focus-within {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 1px var(--focus-ring-color);
+}

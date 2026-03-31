@@ -1,0 +1,10 @@
+/* Loader: @keyframes retained — vendor animation cannot be expressed as Tailwind utilities */
+
+@keyframes loader-fade {
+  0%, 100% { opacity: 0.2; }
+  50%       { opacity: 1;   }
+}
+
+.loader-dot-fade {
+  animation: loader-fade 1.2s ease-in-out infinite;
+}

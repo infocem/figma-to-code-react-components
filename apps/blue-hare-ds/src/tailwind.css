@@ -1,0 +1,190 @@
+@import "tailwindcss" layer(tailwind);
+@import "./tokens.css" layer(tokens);
+
+/*
+ * Tailwind v4 @theme inline — maps CSS custom properties from tokens.css
+ * to Tailwind utility class names WITHOUT generating new CSS custom properties.
+ *
+ * IMPORTANT: Tailwind v4 uses specific namespaces for each utility category:
+ *   text-*       → --text-*                (NOT --font-size-*)
+ *   leading-*    → --leading-*             (NOT --line-height-*)
+ *   tracking-*   → --tracking-*            (NOT --letter-spacing-*)
+ *   font-*       → --font-* (family)
+ *   font-weight  → --font-weight-*
+ *   p/m/gap-*    → --spacing-*
+ *   rounded-*    → --radius-*
+ *   shadow-*     → --shadow-*
+ *   color        → --color-*
+ */
+
+@theme inline {
+  /* ─── Reset Tailwind defaults that conflict ───────────────────────────────── */
+  --spacing: 2px;
+  --font-sans: initial;
+  --font-mono: initial;
+
+  /* Also reset Tailwind default text sizes so ours take precedence */
+  --text-xs: initial;
+  --text-xs--line-height: initial;
+  --text-sm: initial;
+  --text-sm--line-height: initial;
+  --text-base: initial;
+  --text-base--line-height: initial;
+  --text-lg: initial;
+  --text-lg--line-height: initial;
+  --text-xl: initial;
+  --text-xl--line-height: initial;
+  --text-2xl: initial;
+  --text-2xl--line-height: initial;
+  --text-3xl: initial;
+  --text-3xl--line-height: initial;
+
+  /* Reset default shadows */
+  --shadow-sm: initial;
+  --shadow-md: initial;
+  --shadow-lg: initial;
+
+  /* Reset default radius */
+  --radius-xs: initial;
+  --radius-sm: initial;
+  --radius-md: initial;
+  --radius-lg: initial;
+
+  /* ─── Colors ──────────────────────────────────────────────────────────────── */
+
+  /* Primary */
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  --color-primary-dark: var(--color-primary-dark);
+
+  /* Text */
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-placeholder: var(--color-text-placeholder);
+  --color-text-disabled: var(--color-text-disabled);
+  --color-text-on-primary: var(--color-text-on-primary);
+
+  /* Backgrounds */
+  --color-bg: var(--color-bg);
+  --color-bg-page: var(--color-bg-page);
+  --color-bg-hover: var(--color-bg-hover);
+  --color-bg-disabled: var(--color-bg-disabled);
+  --color-bg-tag: var(--color-bg-tag);
+  --color-bg-dark: var(--color-bg-dark);
+
+  /* Borders */
+  --color-border: var(--color-border);
+  --color-border-primary: var(--color-border-primary);
+  --color-border-hover: var(--color-border-hover);
+  --color-border-focus: var(--color-border-focus);
+  --color-border-disabled: var(--color-border-disabled);
+  --color-border-error: var(--color-border-error);
+  --color-border-success: var(--color-border-success);
+
+  /* Status */
+  --color-error: var(--color-error);
+  --color-error-bg: var(--color-error-bg);
+  --color-error-text: var(--color-error-text);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-text: var(--color-success-text);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+  --color-info-text: var(--color-info-text);
+  --color-info-border: var(--color-info-border);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-warning-text: var(--color-warning-text);
+  --color-warning-border: var(--color-warning-border);
+  --color-required: var(--color-required);
+  --color-overlay: var(--overlay-bg);
+
+  /* ─── Typography (correct Tailwind v4 namespaces) ─────────────────────────── */
+
+  /* Font family: font-sans → var(--font-family) */
+  --font-sans: var(--font-family);
+
+  /* Font sizes: text-xs → 10px, text-sm → 12px, etc. */
+  --text-xs: var(--font-size-xs);
+  --text-sm: var(--font-size-sm);
+  --text-md: var(--font-size-md);
+  --text-base: var(--font-size-md);
+  --text-lg: var(--font-size-lg);
+  --text-xl: var(--font-size-xl);
+  --text-2xl: var(--font-size-2xl);
+
+  /* Font weights */
+  --font-weight-regular: var(--font-weight-regular);
+  --font-weight-semibold: var(--font-weight-semibold);
+
+  /* Line heights (standalone): leading-sm, leading-md */
+  --leading-sm: var(--line-height-sm);
+  --leading-md: var(--line-height-md);
+  --leading-none: 1;
+
+  /* Letter spacing: tracking-sm */
+  --tracking-sm: var(--letter-spacing-sm);
+
+  /* ─── Spacing (named tokens only — numeric utilities use Tailwind's 0.25rem base) */
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+
+  /* ─── Border Radius ───────────────────────────────────────────────────────── */
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+
+  /* ─── Shadows ─────────────────────────────────────────────────────────────── */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-dropdown: var(--shadow-dropdown);
+  --shadow-snackbar: var(--shadow-snackbar);
+  --shadow-drawer: var(--shadow-drawer);
+
+  /* ─── Custom sizes (accessible via w-field-height, h-icon-md, etc.) ─────── */
+  --spacing-field-height: var(--field-height);
+  --spacing-field-width: var(--field-width);
+  --spacing-icon-sm: var(--icon-size-sm);
+  --spacing-icon-md: var(--icon-size-md);
+  --spacing-icon-lg: var(--icon-size-lg);
+}
+
+/* ─── Base layer ────────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--color-text);
+    background: var(--color-bg-page);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ─── Focus ring utility (preserves exact ::after border design from Figma) ── */
+@layer components {
+  .focus-ring {
+    position: relative;
+  }
+
+  .focus-ring::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--focus-ring-offset));
+    border: var(--focus-ring-width) solid transparent;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .focus-ring:focus-visible::after {
+    border-color: var(--focus-ring-color);
+  }
+}

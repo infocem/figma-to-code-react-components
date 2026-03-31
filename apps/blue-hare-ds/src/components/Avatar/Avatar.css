@@ -1,0 +1,6 @@
+/* Sibling selector for stacked avatars in a group.
+   Cannot be expressed in Tailwind without per-element JS logic. */
+.avatar-group .avatar + .avatar {
+  margin-left: -10px;
+  border: 2px solid var(--color-bg-page);
+}

@@ -1,0 +1,9 @@
+/* Residual CSS: focus ring pseudo-element cannot be expressed in Tailwind */
+.nav__item--focus::before {
+  content: '';
+  position: absolute;
+  inset: -5px -29px;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}

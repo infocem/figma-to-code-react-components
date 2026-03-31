@@ -1,0 +1,65 @@
+/* ── Placement: positional offsets cannot be expressed with Tailwind utilities ── */
+
+.tooltip--top {
+  flex-direction: column;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip--bottom {
+  flex-direction: column;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip--left {
+  flex-direction: row;
+  right: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip--right {
+  flex-direction: row;
+  left: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ── drop-shadow applied to the whole tooltip (content + tip as one shape) ── */
+
+.tooltip {
+  filter: var(--shadow-tooltip);
+}
+
+/* ── Tip arrow: clip-path cannot be expressed in Tailwind ────────────────── */
+
+/* top: tip is below the content → triangle pointing down */
+.tooltip--top .tooltip__tip {
+  width: 14.72px;
+  height: 8px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* bottom: tip is above the content → triangle pointing up */
+.tooltip--bottom .tooltip__tip {
+  width: 14.72px;
+  height: 8px;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+/* left: tip is to the right → triangle pointing right */
+.tooltip--left .tooltip__tip {
+  width: 8px;
+  height: 14.72px;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+/* right: tip is to the left → triangle pointing left */
+.tooltip--right .tooltip__tip {
+  width: 8px;
+  height: 14.72px;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}

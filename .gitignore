@@ -1,5 +1,8 @@
 # Backup archives
-apps*/
+apps/node_modules/
+
+# Temporary files
+tmp/
 
 # Node
 node_modules/
