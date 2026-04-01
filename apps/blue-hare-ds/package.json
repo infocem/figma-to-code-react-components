@@ -1,32 +1,63 @@
 {
   "name": "blue-hare-ds",
-  "private": true,
   "version": "0.1.0",
   "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./styles.css": "./dist/esm/styles.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:app": "tsc && vite build",
+    "build:lib": "rollup -c && tsc -p tsconfig.build.json",
+    "build": "rollup -c && tsc -p tsconfig.build.json",
     "preview": "vite preview",
+    "clean": "rm -rf dist",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o dist-storybook"
   },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
   "dependencies": {
-    "@tailwindcss/vite": "^4.2.2",
     "clsx": "^2.1.1",
-    "react": "^18.3.1",
     "react-aria": "^3.35.0",
-    "react-dom": "^18.3.1",
-    "react-stately": "^3.33.0",
-    "tailwindcss": "^4.2.2"
+    "react-stately": "^3.33.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@storybook/react-vite": "^10.3.3",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
     "playwright": "^1.58.2",
+    "rollup": "^4.0.0",
+    "rollup-plugin-esbuild": "^6.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^10.3.3",
+    "tailwindcss": "^4.2.2",
     "typescript": "^5.6.3",
     "vite": "^5.4.10"
   }

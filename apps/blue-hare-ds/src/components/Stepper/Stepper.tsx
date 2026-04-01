@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import iconCheck from '../../../public/icons/icon-check.svg'
 
 export type StepperOrientation = 'horizontal' | 'vertical'
 export type StepState = 'completed' | 'current' | 'not-completed' | 'disabled'
@@ -72,7 +73,7 @@ export function Stepper({ steps, currentStep = 0, orientation = 'horizontal', cl
                 aria-hidden="true"
               >
                 {state === 'completed' ? (
-                  <img src="/icons/icon-check.svg" alt="Completed" width={16} height={16} />
+                  <img src={iconCheck} alt="Completed" width={16} height={16} />
                 ) : (
                   <span>{i + 1}</span>
                 )}

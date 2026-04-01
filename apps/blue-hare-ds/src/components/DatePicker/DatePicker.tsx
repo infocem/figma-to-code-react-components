@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
 import { Label } from '../Label/Label'
+import iconCalendar from '../../../public/icons/icon-calendar.svg'
 
 export interface DatePickerProps {
   label?: string
@@ -189,7 +190,7 @@ export function DatePicker({
               disabled ? 'bg-bg-disabled cursor-not-allowed' : 'bg-primary',
             )}
           >
-            <img src="/icons/icon-calendar.svg" alt="" width={24} height={24} />
+            <img src={iconCalendar} alt="" width={24} height={24} />
           </button>
         </div>
         {open && (

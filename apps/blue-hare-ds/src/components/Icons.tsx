@@ -1,3 +1,18 @@
+import iconQuestionLine from '../../public/icons/icon-question-line.svg'
+import iconIdentity from '../../public/icons/icon-identity.svg'
+import iconEye from '../../public/icons/icon-eye.svg'
+import iconPlus from '../../public/icons/icon-plus.svg'
+import iconAdd from '../../public/icons/icon-add.svg'
+import iconCheck from '../../public/icons/icon-check.svg'
+import iconMinus from '../../public/icons/icon-minus.svg'
+import iconSwitchKnob from '../../public/icons/icon-switch-knob.svg'
+import iconChevronDown from '../../public/icons/icon-chevron-down.svg'
+import iconUser from '../../public/icons/icon-user.svg'
+import iconLock from '../../public/icons/icon-lock.svg'
+import iconCloseCircle from '../../public/icons/icon-close-circle.svg'
+import iconExternalLink from '../../public/icons/icon-external-link.svg'
+import iconArrowRight from '../../public/icons/icon-arrow-right.svg'
+
 interface IconProps {
   className?: string
   size?: number
@@ -44,44 +59,44 @@ function MaskIcon({ src, className, size = 24, alt = '' }: IconProps & { src: st
 }
 
 export function QuestionLineIcon(props: IconProps) {
-  return <Icon src="/icons/icon-question-line.svg" {...props} />
+  return <Icon src={iconQuestionLine} {...props} />
 }
 export function IdentityIcon(props: IconProps) {
-  return <Icon src="/icons/icon-identity.svg" {...props} />
+  return <Icon src={iconIdentity} {...props} />
 }
 export function EyeIcon(props: IconProps) {
-  return <Icon src="/icons/icon-eye.svg" {...props} />
+  return <Icon src={iconEye} {...props} />
 }
 export function PlusIcon(props: IconProps) {
-  return <Icon src="/icons/icon-plus.svg" {...props} />
+  return <Icon src={iconPlus} {...props} />
 }
 export function AddIcon(props: IconProps) {
-  return <Icon src="/icons/icon-add.svg" {...props} />
+  return <Icon src={iconAdd} {...props} />
 }
 export function CheckIcon(props: IconProps) {
-  return <Icon src="/icons/icon-check.svg" {...props} />
+  return <Icon src={iconCheck} {...props} />
 }
 export function MinusIcon(props: IconProps) {
-  return <Icon src="/icons/icon-minus.svg" {...props} />
+  return <Icon src={iconMinus} {...props} />
 }
 export function SwitchKnobIcon(props: IconProps) {
-  return <Icon src="/icons/icon-switch-knob.svg" {...props} />
+  return <Icon src={iconSwitchKnob} {...props} />
 }
 export function ChevronDownIcon(props: IconProps) {
-  return <Icon src="/icons/icon-chevron-down.svg" {...props} />
+  return <Icon src={iconChevronDown} {...props} />
 }
 export function UserIcon(props: IconProps) {
-  return <Icon src="/icons/icon-user.svg" {...props} />
+  return <Icon src={iconUser} {...props} />
 }
 export function LockIcon(props: IconProps) {
-  return <Icon src="/icons/icon-lock.svg" {...props} />
+  return <Icon src={iconLock} {...props} />
 }
 export function CloseCircleIcon(props: IconProps) {
-  return <MaskIcon src="/icons/icon-close-circle.svg" {...props} />
+  return <MaskIcon src={iconCloseCircle} {...props} />
 }
 export function ExternalLinkIcon(props: IconProps) {
-  return <MaskIcon src="/icons/icon-external-link.svg" {...props} />
+  return <MaskIcon src={iconExternalLink} {...props} />
 }
 export function ArrowRightIcon(props: IconProps) {
-  return <MaskIcon src="/icons/icon-arrow-right.svg" {...props} />
+  return <MaskIcon src={iconArrowRight} {...props} />
 }

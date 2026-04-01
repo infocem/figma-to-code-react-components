@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconChevronLeft from '../../../public/icons/icon-chevron-left.svg'
+import iconChevronRight from '../../../public/icons/icon-chevron-right.svg'
 
 export interface CarouselProps {
   items: React.ReactNode[]
@@ -56,7 +58,7 @@ export function Carousel({ items, label = 'Carousel', className }: CarouselProps
             current === 0 && 'border-border-disabled cursor-not-allowed opacity-50',
           )}
         >
-          <img src="/icons/icon-chevron-left.svg" alt="" aria-hidden="true" width={24} height={24} />
+          <img src={iconChevronLeft} alt="" aria-hidden="true" width={24} height={24} />
         </button>
 
         {/* Progress track */}
@@ -77,7 +79,7 @@ export function Carousel({ items, label = 'Carousel', className }: CarouselProps
             current === items.length - 1 && 'border-border-disabled cursor-not-allowed opacity-50',
           )}
         >
-          <img src="/icons/icon-chevron-right.svg" alt="" aria-hidden="true" width={24} height={24} />
+          <img src={iconChevronRight} alt="" aria-hidden="true" width={24} height={24} />
         </button>
       </div>
     </div>

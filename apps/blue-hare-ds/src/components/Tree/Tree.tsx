@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import iconChevronRight from '../../../public/icons/icon-chevron-right.svg'
 
 export interface TreeNode {
   key: string
@@ -60,7 +61,7 @@ function TreeNodeItem({ node, selectedKey, expanded, onToggle, onSelect, depth }
             )}
             aria-hidden="true"
           >
-            <img src="/icons/icon-chevron-right.svg" alt="" width={16} height={16} />
+            <img src={iconChevronRight} alt="" width={16} height={16} />
           </span>
         )}
         {!hasChildren && <span className="flex items-center w-4 h-4 shrink-0" aria-hidden="true" />}

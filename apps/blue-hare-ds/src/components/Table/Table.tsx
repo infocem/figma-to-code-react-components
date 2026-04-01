@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconSortAlt from '../../../public/icons/icon-sort-alt.svg'
 
 export type SortDirection = 'asc' | 'desc' | null
 
@@ -43,7 +44,7 @@ function SortButton({ onPress, direction, label }: SortButtonProps) {
         (direction === 'asc' || direction === 'desc') && 'opacity-100 text-primary',
       )}
     >
-      <img src="/icons/icon-sort-alt.svg" alt="" aria-hidden="true" width={12} height={12} />
+      <img src={iconSortAlt} alt="" aria-hidden="true" width={12} height={12} />
     </button>
   )
 }

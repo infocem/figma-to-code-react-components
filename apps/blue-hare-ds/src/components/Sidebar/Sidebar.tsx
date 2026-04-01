@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import iconChevronDown from '../../../public/icons/icon-chevron-down.svg'
 
 export interface SidebarSubItem {
   key: string
@@ -126,7 +127,7 @@ export function Sidebar({
                       )}
                       aria-hidden="true"
                     >
-                      <img src="/icons/icon-chevron-down.svg" alt="" width={24} height={24} />
+                      <img src={iconChevronDown} alt="" width={24} height={24} />
                     </span>
                   )}
                 </button>
@@ -199,7 +200,7 @@ export function Sidebar({
                   )}
                   aria-hidden="true"
                 >
-                  <img src="/icons/icon-chevron-down.svg" alt="" width={20} height={20} />
+                  <img src={iconChevronDown} alt="" width={20} height={20} />
                 </span>
               </>
             )}

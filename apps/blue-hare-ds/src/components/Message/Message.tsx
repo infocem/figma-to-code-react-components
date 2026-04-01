@@ -1,14 +1,19 @@
 import { useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconMessageInfo from '../../../public/icons/icon-message-info.svg'
+import iconMessageSuccess from '../../../public/icons/icon-message-success.svg'
+import iconMessageWarning from '../../../public/icons/icon-message-warning.svg'
+import iconMessageError from '../../../public/icons/icon-message-error.svg'
+import iconMessageClose from '../../../public/icons/icon-message-close.svg'
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error'
 
 const iconByType: Record<MessageType, string> = {
-  info:    '/icons/icon-message-info.svg',
-  success: '/icons/icon-message-success.svg',
-  warning: '/icons/icon-message-warning.svg',
-  error:   '/icons/icon-message-error.svg',
+  info:    iconMessageInfo,
+  success: iconMessageSuccess,
+  warning: iconMessageWarning,
+  error:   iconMessageError,
 }
 
 const TYPE_CLASSES: Record<MessageType, string> = {
@@ -61,7 +66,7 @@ export function Message({ type = 'info', title, description, onClose, className 
           ref={closeRef}
           className="flex items-center shrink-0 border-none bg-transparent cursor-pointer text-inherit p-0 outline-none self-start focus-visible:rounded-sm focus-visible:shadow-[0_0_0_1.5px_currentColor]"
         >
-          <img src="/icons/icon-message-close.svg" alt="Close" width={16} height={16} />
+          <img src={iconMessageClose} alt="Close" width={16} height={16} />
         </button>
       )}
     </div>

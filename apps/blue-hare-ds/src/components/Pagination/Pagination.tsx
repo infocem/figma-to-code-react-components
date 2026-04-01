@@ -1,6 +1,9 @@
 import { useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconChevronLeft from '../../../public/icons/icon-chevron-left.svg'
+import iconChevronRight from '../../../public/icons/icon-chevron-right.svg'
+import iconThreeDots from '../../../public/icons/icon-three-dots.svg'
 
 export type PaginationVariant = 'jumper' | 'default'
 
@@ -73,7 +76,7 @@ export function Pagination({
       <div className="flex items-center gap-2">
         {/* Previous */}
         <PageButton
-          label={<img src="/icons/icon-chevron-left.svg" alt="" aria-hidden="true" width={24} height={24} />}
+          label={<img src={iconChevronLeft} alt="" aria-hidden="true" width={24} height={24} />}
           ariaLabel="Previous page"
           onPress={() => onPageChange(page - 1)}
           disabled={page <= 1}
@@ -87,7 +90,7 @@ export function Pagination({
                 className="flex items-center justify-center w-8 h-8 rounded-sm bg-bg-tag cursor-default pointer-events-none"
                 aria-hidden="true"
               >
-                <img src="/icons/icon-three-dots.svg" alt="…" width={24} height={24} />
+                <img src={iconThreeDots} alt="…" width={24} height={24} />
               </span>
             ) : (
               <PageButton
@@ -116,7 +119,7 @@ export function Pagination({
 
         {/* Next */}
         <PageButton
-          label={<img src="/icons/icon-chevron-right.svg" alt="" aria-hidden="true" width={24} height={24} />}
+          label={<img src={iconChevronRight} alt="" aria-hidden="true" width={24} height={24} />}
           ariaLabel="Next page"
           onPress={() => onPageChange(page + 1)}
           disabled={page >= total}

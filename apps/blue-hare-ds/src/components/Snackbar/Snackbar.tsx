@@ -1,6 +1,12 @@
 import { useRef } from 'react'
 import { useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconSnackbarDefault from '../../../public/icons/icon-snackbar-default.svg'
+import iconSnackbarInfo from '../../../public/icons/icon-snackbar-info.svg'
+import iconSnackbarSuccess from '../../../public/icons/icon-snackbar-success.svg'
+import iconSnackbarWarning from '../../../public/icons/icon-snackbar-warning.svg'
+import iconSnackbarError from '../../../public/icons/icon-snackbar-error.svg'
+import iconX from '../../../public/icons/icon-x.svg'
 
 export type SnackbarType = 'default' | 'information' | 'success' | 'warning' | 'error'
 
@@ -24,11 +30,11 @@ const titleColorClasses: Record<SnackbarType, string> = {
 }
 
 const iconByType: Record<SnackbarType, string> = {
-  default: '/icons/icon-snackbar-default.svg',
-  information: '/icons/icon-snackbar-info.svg',
-  success: '/icons/icon-snackbar-success.svg',
-  warning: '/icons/icon-snackbar-warning.svg',
-  error: '/icons/icon-snackbar-error.svg',
+  default: iconSnackbarDefault,
+  information: iconSnackbarInfo,
+  success: iconSnackbarSuccess,
+  warning: iconSnackbarWarning,
+  error: iconSnackbarError,
 }
 
 export function Snackbar({
@@ -93,7 +99,7 @@ export function Snackbar({
             ref={closeRef}
             className="flex items-start shrink-0 bg-none border-none p-0 cursor-pointer outline-none focus-visible:rounded-sm focus-visible:shadow-[0_0_0_1.5px_var(--color-primary)]"
           >
-            <img src="/icons/icon-x.svg" alt="Close" width={20} height={20} />
+            <img src={iconX} alt="Close" width={20} height={20} />
           </button>
         )}
       </div>

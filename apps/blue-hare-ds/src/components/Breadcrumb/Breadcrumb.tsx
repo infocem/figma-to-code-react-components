@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useLink } from 'react-aria'
 import clsx from 'clsx'
 import { ExternalLinkIcon } from '../Icons'
+import iconChevronRight from '../../../public/icons/icon-chevron-right.svg'
 
 export interface BreadcrumbItem {
   label: string
@@ -59,7 +60,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
             <li key={i} className="flex items-center gap-2">
               <BreadcrumbLink item={item} isCurrent={isCurrent} />
               {!isCurrent && (
-                <img src="/icons/icon-chevron-right.svg" alt="" aria-hidden="true" width={16} height={16} className="opacity-40" />
+                <img src={iconChevronRight} alt="" aria-hidden="true" width={16} height={16} className="opacity-40" />
               )}
             </li>
           )

@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useDialog } from 'react-aria'
 import clsx from 'clsx'
+import iconClose from '../../../public/icons/icon-close.svg'
 
 export type DrawerPlacement = 'left' | 'right' | 'bottom'
 
@@ -49,7 +50,7 @@ export function Drawer({ title, isOpen, onClose, placement = 'right', children, 
             onClick={onClose}
             aria-label="Close drawer"
           >
-            <img src="/icons/icon-close.svg" alt="" width={20} height={20} />
+            <img src={iconClose} alt="" width={20} height={20} />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-md">{children}</div>

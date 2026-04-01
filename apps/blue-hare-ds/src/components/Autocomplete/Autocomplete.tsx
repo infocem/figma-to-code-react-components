@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { useTextField, useFocusRing, useButton } from 'react-aria'
 import clsx from 'clsx'
+import iconClose from '../../../public/icons/icon-close.svg'
+import iconSearch from '../../../public/icons/icon-search.svg'
 
 export interface AutocompleteOption {
   value: string
@@ -99,11 +101,11 @@ export function Autocomplete({
           />
           {value && !disabled && (
             <button {...clearProps} ref={clearRef} className="flex items-center justify-center shrink-0 w-[24px] h-[24px] bg-transparent border-none cursor-pointer p-0 mr-1 outline-none">
-              <img src="/icons/icon-close.svg" alt="" width={16} height={16} />
+              <img src={iconClose} alt="" width={16} height={16} />
             </button>
           )}
           <button {...searchProps} ref={searchRef} className="flex items-center justify-center shrink-0 h-full px-sm bg-primary border-none cursor-pointer outline-none">
-            <img src="/icons/icon-search.svg" alt="" width={24} height={24} />
+            <img src={iconSearch} alt="" width={24} height={24} />
           </button>
         </div>
         {isOpen && filtered.length > 0 && (
