@@ -3,7 +3,9 @@ apps/node_modules/
 
 # Dev artifacts (generated, not source)
 apps/*/screenshots/
+apps/*/figma-refs/
 apps/*/.figma-cache/
+apps/docs/
 
 # Temporary files
 tmp/
