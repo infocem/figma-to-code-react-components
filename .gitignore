@@ -1,6 +1,10 @@
 # Backup archives
 apps/node_modules/
 
+# Dev artifacts (generated, not source)
+apps/*/screenshots/
+apps/*/.figma-cache/
+
 # Temporary files
 tmp/
 

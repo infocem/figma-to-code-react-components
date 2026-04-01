@@ -51,11 +51,20 @@ Cada app gerado segue esta estrutura:
 apps/<nome>/
 ├── src/
 │   ├── components/        # Componentes extraídos do Figma
+│   ├── pages/             # Páginas do showcase
+│   ├── screens/           # Telas completas (ex: Fornecedores)
 │   ├── tokens.css         # Tokens de design + overrides por brand
+│   ├── tailwind.css       # Config Tailwind + keyframes
 │   ├── App.tsx
 │   └── main.tsx
-└── public/
-    └── icons/             # SVGs baixados diretamente do Figma
+├── public/
+│   └── icons/             # SVGs baixados do Figma
+├── scripts/               # Scripts de dev (screenshots, cache)
+├── figma-refs/            # Referências visuais do Figma
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 Quando o Figma contém múltiplos frames com paletas diferentes, o skill também gera:
